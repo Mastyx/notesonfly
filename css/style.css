@@ -1,0 +1,91 @@
+@import url('https://fonts.googleapis.com/css2?family=Kode+Mono:wght@400..700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+* {
+	padding : 0;
+	margin : 0;
+	box-sizing: border-box;
+	font-size : 16px;
+	color : #00fafa;
+}
+
+.container {
+	font-family: Kode Mono, sans-serif;
+	
+	padding : 10px;
+	width : 100vw;
+	height : 100vh;
+	background : #333;
+}
+
+
+
+.titolo {
+	display : flex;
+	align-items: center;
+	gap : 10px;
+	padding : 10px;
+}
+
+
+.titolo>img{
+	background : #CCC;
+	padding : 5px;
+	border-radius : 10px;
+}
+.titolo>p{
+	font-size : 30px;
+
+}
+
+#imageTitle {
+	width : 50px;
+	padding : 5px;
+}
+
+
+#add-note{
+	position : absolute;
+	bottom : 5px;
+	right : 0;
+	width : 150px;
+	height : 150px;
+	display : flex;
+	justify-content: center;
+	align-items : center;
+	border-radius : 30px 0 0 0;
+	background : #222;
+	box-shadow : -3px -3px 3px #00fafa;
+}
+#add-note>p{
+	font-size : 100px;
+}
+
+.input-box {
+	position : relative;
+	width: 100%;
+	max-width : 500px;
+	border : 1px solid #CCC;
+	border-radius : 5px;
+	padding : 20px;
+	font-size : 2rem;
+	margin : 20px;
+	outline : none;
+}
+
+.input-box img {
+	width : 25px;
+	position : absolute;
+	bottom : 10px;
+	right : 10px;
+	background : #CCC;
+	padding : 5px;
+	border-radius : 5px;
+
+}
+
+.footer {
+	position : absolute;
+	bottom : 5px;
+}
+
+
