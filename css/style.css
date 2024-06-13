@@ -53,8 +53,8 @@
 
 #add-note{
 	position : absolute;
-	bottom : 5px;
-	right : 10px;
+	bottom : 30px;
+	right : 50px;
 	width : 150px;
 	height : 150px;
 	display : flex;
@@ -72,11 +72,12 @@
 #group {
 	position : absolute;
 	background : #444;
-	padding : 10px;
-	bottom : 20px;
+	padding : 20px;
+	bottom : 30px;
 	right : 200px;
 	box-shadow : 0 0 5px #00fafa;
 	cursor : pointer;
+	border-radius : 40%;
 
 }
 
@@ -135,7 +136,8 @@
 
 .footer {
 	position : absolute;
-	bottom : 5px;
+	bottom : 0px;
+	
 }
 
 
