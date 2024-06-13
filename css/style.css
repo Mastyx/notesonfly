@@ -62,10 +62,22 @@
 	align-items : center;
 	border-radius : 50%;
 	background : #222;
-	box-shadow : -3px -3px 3px #00fafa;
+	box-shadow : 0 0 5px #00fafa;
+	cursor : pointer;
 }
 #add-note>p{
 	font-size : 100px;
+}
+
+#group {
+	position : absolute;
+	background : #444;
+	padding : 10px;
+	bottom : 20px;
+	right : 200px;
+	box-shadow : 0 0 5px #00fafa;
+	cursor : pointer;
+
 }
 
 .input-box {
@@ -99,14 +111,13 @@
 }
 
 #cancella {
-	border : 1px solid #CCC;
+	border : 1px solid #00fafa;
 	position : absolute;
 	width : 40px;
 	height : 40px;
 	display : flex;
 	justify-content : center;
 	align-items : center;
-	background : #CCC;
 	border-radius : 5px;
 	bottom : 7px;
 	right : 25px;
@@ -115,9 +126,10 @@
 
 #cancella>img  {
 	width : 100%;
-	height : 100%
-	background : #CCC;
+	height : 100%;
+	background : #00fafa;
 	border-radius : 5px;
+	cursor : pointer;
 
 }
 

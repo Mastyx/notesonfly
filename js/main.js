@@ -3,6 +3,7 @@ const noteContainer = document.querySelector(".notes-container");
 
 const newNote = document.getElementById("add-note");
 
+const btnGroup = document.getElementById("group");
 
 newNote.addEventListener("click", ()=>{
 	console.log("crea nuova nota");
@@ -10,7 +11,7 @@ newNote.addEventListener("click", ()=>{
 	inputBox.className = "input-box"
 	let note = document.createElement("div");
 	note.id = "note";
-	let cancella = document.createElement("div");
+let cancella = document.createElement("div");
 	cancella.id = "cancella";
 	let img = document.createElement("img");
 	img.src = "../trash.png";
@@ -21,19 +22,10 @@ newNote.addEventListener("click", ()=>{
 	inputBox.appendChild(cancella);
 	cancella.appendChild(img);
 
-	
-
 	note.addEventListener("click", ()=>{
 		note.focus();
 	});
 
-
-	//noteContainer.addEventListener("mousedown", (event)=>{
-	//	if (event.target.classList.contains("input-box")) {
-	//		$(event.target).draggable();
-	//	}
-	//});
-		
 	$(inputBox).draggable();
 
 	const originalWidth = $(inputBox).width();
@@ -43,7 +35,6 @@ newNote.addEventListener("click", ()=>{
 		resize : (event, ui)=>{
 			let scaleW = ui.size.width / originalWidth;
 			let scaleH = ui.size.height / originalHeight;
-
 			$(note).css("transform", "scale(" + scaleW + "," + scaleH + ")");
 		},
 		stop : (event, ui)=>{
@@ -58,10 +49,33 @@ newNote.addEventListener("click", ()=>{
 	
 	// elimina nota 
 	cancella.addEventListener("click", (event)=>{
-		event.stopPropagation();	
-		event.target.parentElement.parentElement.remove();
+		event.stopPropagation();
+		let confirmed = confirm("Are you sure ? ");
+		if (confirmed) {
+			event.target.parentElement.parentElement.remove();}
 	});
 });
+
+
+
+
+// raggruppa note
+const groupNote = ()=> {
+	const notes = document.querySelectorAll(".input-box");
+	let topPosition = 100;
+	let increment = 10;
+	notes.forEach( nota => {
+		nota.style.position = 'relative';
+		nota.style.left = '50px';
+		nota.style.top = topPosition + "px";
+	});
+}
+
+group.addEventListener('click', ()=>{
+	groupNote();
+});
+
+
 
 
 
