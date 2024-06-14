@@ -7,6 +7,9 @@
 	font-size : 20px;
 	color : #00fafa;
 }
+body {
+	background : #333;
+}
 
 .container {
 	font-family: Kode Mono, sans-serif;
@@ -93,17 +96,15 @@
 	outline : none;
 	overflow: hidden;
 	box-shadow : 0 0 10px #000;
-	background : #DDD;
+	background : #333;
+	display : flex;
+	justify-content : center;
 }
 
 .input-box>#note {
-	position : absolute;
-	top : 5px;
-	left : 5px;
-	bottom : 50px;
-	right : 5px;
+	position : relative;
 	height  :90%;
-	width : 90%;
+	width : 100%;
 	overflow : auto;
 	border : none;
 	outline : none;

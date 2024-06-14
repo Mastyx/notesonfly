@@ -40,7 +40,8 @@ newNote.addEventListener("click", ()=>{
 		
 	});
 
-	$(inputBox).draggable();
+	$(inputBox).draggable({});
+
 
 	const originalWidth = $(inputBox).width();
 	const originalHeight = $(inputBox).height();
@@ -89,7 +90,6 @@ const groupNote = ()=> {
 group.addEventListener('click', ()=>{
 	groupNote();
 });
-
 
 
 
