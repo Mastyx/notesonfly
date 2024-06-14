@@ -9,14 +9,14 @@ newNote.addEventListener("click", ()=>{
 	console.log("crea nuova nota");
 	let inputBox = document.createElement("div");
 	inputBox.className = "input-box"
-	let note = document.createElement("div");
+	let note = document.createElement("textarea");
 	note.id = "note";
 	let cancella = document.createElement("div");
 	cancella.id = "cancella";
 	let img = document.createElement("img");
 	img.src = "../trash.png";
 
-	note.setAttribute('contentEditable', "true");
+	// note.setAttribute('contentEditable', "true");
 	noteContainer.appendChild(inputBox);
 	inputBox.appendChild(note);
 	inputBox.appendChild(cancella);
@@ -28,8 +28,16 @@ newNote.addEventListener("click", ()=>{
 	// gestisci tab
 	note.addEventListener("keydown", (event)=>{
 		const start = note.selectionStart;
-		event.preventDefault();
-// sto qua !!!!
+		const end = note.selectionEnd;
+		const tabSpace = "    ";
+		if (event.key === "Tab" || event.code === "Tab") {
+			event.preventDefault();
+			console.log("tab press...");
+			note.value = note.value.substring(0, start) + tabSpace + note.value.substring(end);
+			note.selectionStart = note.selectionEnd = start + 4;
+
+		}
+		
 	});
 
 	$(inputBox).draggable();
@@ -47,6 +55,10 @@ newNote.addEventListener("click", ()=>{
 			$(note).css("transform","scale(1 ,1)");
 			$(note).width(ui.size.widht);
 			$(note).height(ui.size.height);
+			$(note).css("height", "90%");
+			$(note).css("width", "100%");
+
+
 		},
 	});
 
