@@ -11,7 +11,7 @@ newNote.addEventListener("click", ()=>{
 	inputBox.className = "input-box"
 	let note = document.createElement("div");
 	note.id = "note";
-let cancella = document.createElement("div");
+	let cancella = document.createElement("div");
 	cancella.id = "cancella";
 	let img = document.createElement("img");
 	img.src = "../trash.png";
@@ -24,6 +24,12 @@ let cancella = document.createElement("div");
 
 	note.addEventListener("click", ()=>{
 		note.focus();
+	});
+	// gestisci tab
+	note.addEventListener("keydown", (event)=>{
+		const start = note.selectionStart;
+		event.preventDefault();
+// sto qua !!!!
 	});
 
 	$(inputBox).draggable();
@@ -57,13 +63,10 @@ let cancella = document.createElement("div");
 });
 
 
-
-
 // raggruppa note
 const groupNote = ()=> {
 	const notes = document.querySelectorAll(".input-box");
 	let topPosition = 100;
-	let increment = 10;
 	notes.forEach( nota => {
 		nota.style.position = 'relative';
 		nota.style.left = '50px';

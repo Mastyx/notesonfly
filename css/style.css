@@ -71,14 +71,13 @@
 
 #group {
 	position : absolute;
-	background : #444;
+	background : #222;
 	padding : 20px;
 	bottom : 30px;
-	right : 200px;
+	right : 230px;
 	box-shadow : 0 0 5px #00fafa;
 	cursor : pointer;
 	border-radius : 40%;
-
 }
 
 .input-box {
@@ -91,7 +90,7 @@
 	max-width : 1000px;
 	border : 1px solid #333;
 	border-radius : 5px;
-	padding : 5px;
+	padding : 10px;
 	outline : none;
 	overflow: hidden;
 	box-shadow : 0 0 10px #000;
@@ -108,7 +107,7 @@
 	overflow : auto;
 	border : none;
 	outline : none;
-	background : #222;
+	background : #333;
 }
 
 #cancella {
@@ -137,7 +136,6 @@
 .footer {
 	position : absolute;
 	bottom : 0px;
-	
 }
 
 
