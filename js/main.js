@@ -8,7 +8,7 @@ const btnGroup = document.getElementById("group");
 newNote.addEventListener("click", ()=>{
 	console.log("crea nuova nota");
 	let inputBox = document.createElement("div");
-	inputBox.className = "input-box"
+	inputBox.className = "input-box";
 	let note = document.createElement("textarea");
 	note.id = "note";
 	let cancella = document.createElement("div");
@@ -16,12 +16,12 @@ newNote.addEventListener("click", ()=>{
 	let img = document.createElement("img");
 	img.src = "../trash.png";
 
+
 	// note.setAttribute('contentEditable', "true");
 	noteContainer.appendChild(inputBox);
 	inputBox.appendChild(note);
 	inputBox.appendChild(cancella);
 	cancella.appendChild(img);
-
 	note.addEventListener("click", ()=>{
 		note.focus();
 	});
@@ -30,28 +30,40 @@ newNote.addEventListener("click", ()=>{
 		const start = note.selectionStart;
 		const end = note.selectionEnd;
 		const tabSpace = "    ";
+		// gestisce il tab
 		if (event.key === "Tab" || event.code === "Tab") {
 			event.preventDefault();
 			console.log("tab press...");
 			note.value = note.value.substring(0, start) + tabSpace + note.value.substring(end);
 			note.selectionStart = note.selectionEnd = start + 4;
+		}
+		// gestisce l'identazione
+		if ( event.key === 'Enter' || event.code === 'Enter' ) {
+			event.preventDefault();
+			const lineStart = note.value.lastIndexOf('\n', start - 1) + 1;
+			const lineText = note.value.substring(lineStart, start);
+			const leadingTabs = lineText.match(/^\s*/)[0];
 
+			note.value = note.value.substring(0, start) + '\n' +
+				leadingTabs + note.value.substring(end);
+			note.selectionStart = note.selectionEnd = start + 1 + leadingTabs.length;
 		}
 		
 	});
 
 	$(inputBox).draggable({});
-
-
+	
 	const originalWidth = $(inputBox).width();
 	const originalHeight = $(inputBox).height();
 	
 	$(inputBox).resizable({
+		// durante il resize 
 		resize : (event, ui)=>{
 			let scaleW = ui.size.width / originalWidth;
 			let scaleH = ui.size.height / originalHeight;
 			$(note).css("transform", "scale(" + scaleW + "," + scaleH + ")");
 		},
+		// alla fine 
 		stop : (event, ui)=>{
 			$(note).css("transform","scale(1 ,1)");
 			$(note).width(ui.size.widht);
