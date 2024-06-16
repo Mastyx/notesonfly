@@ -5,6 +5,16 @@ const newNote = document.getElementById("add-note");
 
 const btnGroup = document.getElementById("group");
 
+
+const showNotes = ()=> {
+	noteContainer.innerHTML = localStorage.getItem("notes");
+}
+
+const updateStorage = ()=>{
+	localStorage.setItem("notes", noteContainer.innerHTML);
+}
+
+
 newNote.addEventListener("click", ()=>{
 	console.log("crea nuova nota");
 	let inputBox = document.createElement("div");
@@ -104,7 +114,23 @@ group.addEventListener('click', ()=>{
 });
 
 
+document.addEventListener("keydown", (event)=>{
+	if (event.ctrlKey && event.key === 's') {
+		event.preventDefault();
+		console.log('Salvato');
+		const notes = document.querySelectorAll(".input-box");
+		notes.forEach( nota => {
+			nota.onkeyup = ()=>{
+				console.log("salvato");
+				updateStorage();
+			}				
+		});
+	}
+});
 
+window.onload = ()=>{
+	showNotes();
+}
 
 
 
