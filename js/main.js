@@ -110,7 +110,7 @@
 // proviamo l'approccio con le classi
 document.addEventListener("DOMContentLoaded", ()=> {
 	const noteContainer = document.querySelector(".notes-container");
-	const newNoteBotton = document.getElementById("add-note");
+	const newNoteButton = document.getElementById("add-note");
 	let currentFontSize = 16 ;
 	let notes = [];
 
@@ -156,13 +156,43 @@ document.addEventListener("DOMContentLoaded", ()=> {
 			this.makeResizableAndDraggable();
 		}
 
-		// creo le funzioni 
+		// create function
+		addEventListener() {
+			this.cancella.addEventListener("click", (event)=> {
+				event.stopPropagation();
+				console.log("Cancella");
+				let confirmed = confirm("Are you sure ?");
+				if (confirmed) {
+					this.inputBox.remove();
+					notes = notes.filter( n => n !== this);
+					saveNotes();
+				}
+			});
 
-
-
+			this.note.addEventListener("click", ()=>{
+				this.note.focus();
+			});
+		}
 
 
 	}
+
+	newNoteButton.addEventListener("click", ()=> {
+		let nota = new Nota("", {top: 10, left: 10}, {width: 200, height: 200});
+		notes.push(nota);
+		saveNotes();
+	});
+
+	const saveNotes = ()=> {
+		const noteData = notes.map(nota => ({
+			content : nota.note.value,	
+			position : nota.position,
+			size: nota.size,
+			fontSize: nota.fontSize
+		}));
+		localStorage.setItem("notes", JSON.stringify(noteData));
+	}
+
 });
 
 
