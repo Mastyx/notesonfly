@@ -173,6 +173,10 @@ document.addEventListener("DOMContentLoaded", ()=> {
 				console.log('click focus');
 				this.inputBox.style.zIndex = ++zIndexCount;
 			});
+
+			this.note.addEventListener('click', ()=>{
+				this.note.focus();
+			});
 	
 			// ascoltatore input
 			this.note.addEventListener("input", ()=>{
