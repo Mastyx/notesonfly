@@ -113,6 +113,7 @@ document.addEventListener("DOMContentLoaded", ()=> {
 	const newNoteButton = document.getElementById("add-note");
 	let currentFontSize = 16 ;
 	let notes = [];
+	let zIndexCount = 1; 
 
 	class Nota {
 		constructor(content, position, size, fontsize) {
@@ -167,8 +168,10 @@ document.addEventListener("DOMContentLoaded", ()=> {
 				} 
 			});
 			
-			this.note.addEventListener("click", ()=>{
-				this.note.focus();
+			this.inputBox.addEventListener("click", ()=>{
+				this.inputBox.focus();
+				console.log('click focus');
+				this.inputBox.style.zIndex = ++zIndexCount;
 			});
 	
 			// ascoltatore input
@@ -176,6 +179,14 @@ document.addEventListener("DOMContentLoaded", ()=> {
 				this.content = this.note.value;	
 				saveNotes();
 			});
+
+			this.note.addEventListener("touchstart", (event)=>{
+				this.inputBox.draggable("disable");
+			});
+			this.note.addEventListener("touchend", (event)=>{
+				this.inputBox.draggable("enable");
+			});
+		
 
 		}
 		// gestisce il trascinamento
@@ -221,7 +232,8 @@ document.addEventListener("DOMContentLoaded", ()=> {
 
 
 	newNoteButton.addEventListener("click", ()=> {
-		let nota = new Nota("", {top: 100, left: 10}, {width: 200, height: 200});
+
+		let nota = new Nota("", {top: 100 + notes.length*5 , left: 10+ notes.length*5}, {width: 200, height: 200});
 		notes.push(nota);
 		saveNotes();
 	});
