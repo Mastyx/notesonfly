@@ -116,11 +116,11 @@ document.addEventListener("DOMContentLoaded", ()=> {
 
 	class Nota {
 		constructor(content, position, size, fontsize) {
+			this.id = 'note-'+ new Date().getTime(); 
 			this.content = content || "";
-			this.position = position || { top : 10, left : 10};
+			this.position = position || { top : 100, left : 10};
 			this.size = size || { width : 200, height : 200 };
 			this.fontSize = fontsize || 16;
-
 			this.createElement();
 		}
 
@@ -133,7 +133,7 @@ document.addEventListener("DOMContentLoaded", ()=> {
 			this.inputBox.style.height = this.height + "px";
 
 			this.note = document.createElement("textarea");
-			this.note.id = "note";
+			this.note.id = this.id;
 			this.note.style.fontSize = this.fontSize + "px";
 			this.note.value = this.content;
 			
@@ -142,17 +142,15 @@ document.addEventListener("DOMContentLoaded", ()=> {
 			let img = document.createElement("img");
 			img.src = "../trash.png";
 			
-
 			// colleghiamo il tutto 
 			this.cancella.appendChild(img);
 			this.inputBox.appendChild(this.note);
 			this.inputBox.appendChild(this.cancella);
 			noteContainer.appendChild(this.inputBox);
 			
-			// richiama la funzione addEventListener
+			// ascoltatore
 			this.addEventListener();
-			// richiama la funzione per il ridimensionamento e 
-			// trascinamento rendere ridimensionabile e trascinabile 
+			// ascoltatore ridimensionamento e trascinamento 
 			this.makeResizableAndDraggable();
 		}
 
@@ -166,25 +164,71 @@ document.addEventListener("DOMContentLoaded", ()=> {
 					this.inputBox.remove();
 					notes = notes.filter( n => n !== this);
 					saveNotes();
-				}
+				} 
 			});
-
+			
 			this.note.addEventListener("click", ()=>{
 				this.note.focus();
 			});
+	
+			// ascoltatore input
+			this.note.addEventListener("input", ()=>{
+				this.content = this.note.value;	
+				saveNotes();
+			});
+
+		}
+		// gestisce il trascinamento
+		makeResizableAndDraggable() {
+			const originalWidth = $(this.inputBox).width();
+			const originalHeight = $(this.inputBox).height();
+			
+			$(this.inputBox).draggable({
+				containment : '.note-container',
+				stop : ()=> {
+					this.position = {
+						top : this.inputBox.offsetTop,
+						left : this.inputBox.offsetLeft
+					};
+					saveNotes();
+				}
+			});
+
+			$(this.inputBox).resizable({
+				resize : (event, ui) => {
+					let scaleW = ui.size.width / originalWidth;
+					let scaleH = ui.size.height / originalHeight;
+					$(this.note).css("transform", "scale("+ scaleW +","+ scaleH +")");
+				},
+				stop: (event, ui) => {
+					$(this.note).css("transform", "scale(1,1)");
+					this.note.style.width = ui.size.width + "px";
+					this.note.style.height =  `100%-${this.cancella.style.height}`;
+					console.log(this.cancella.style.height);
+					this.size = { width : ui.size.widht , height : ui.size.height };
+					saveNotes();
+				},
+			});
 		}
 
-
+		// gestire il font size 
+		updateFontSize(size) {
+			this.fontSize = size;
+			this.note.style.fontSize = size + "px";
+		}
 	}
 
+
+
 	newNoteButton.addEventListener("click", ()=> {
-		let nota = new Nota("", {top: 10, left: 10}, {width: 200, height: 200});
+		let nota = new Nota("", {top: 100, left: 10}, {width: 200, height: 200});
 		notes.push(nota);
 		saveNotes();
 	});
 
 	const saveNotes = ()=> {
 		const noteData = notes.map(nota => ({
+			id : nota.id, 
 			content : nota.note.value,	
 			position : nota.position,
 			size: nota.size,
@@ -192,6 +236,17 @@ document.addEventListener("DOMContentLoaded", ()=> {
 		}));
 		localStorage.setItem("notes", JSON.stringify(noteData));
 	}
+
+	const loadNotes = ()=> {
+		// carica le note di localStorage
+		const noteData = JSON.parse(localStorage.getItem('notes'));
+		console.log('Loding Note ... ');
+		if (noteData) {
+			notes = noteData.map(data => new Nota(data.content, data.position, data.size, data.fontSize));
+		}
+	}
+
+	loadNotes(); // richiama la funzione per caricare le note
 
 });
 
