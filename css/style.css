@@ -12,16 +12,13 @@ body {
 }
 
 .container {
-	font-family: Kode Mono, sans-serif;
-	
+	font-family: Kode Mono, sans-serif;	
 	padding : 10px;
 	width : 100vw;
 	height : 100vh;
 	background : #333;
 	overflow : auto;
 }
-
-
 
 .titolo {
 	display : flex;
@@ -30,7 +27,6 @@ body {
 	padding : 10px;
 }
 
-
 .titolo>img{
 	background : #CCC;
 	padding : 5px;
@@ -38,49 +34,48 @@ body {
 }
 .titolo>p{
 	font-size : 30px;
-
 }
-
-
 
 #imageTitle {
 	width : 50px;
 	padding : 5px;
 }
 
-.notes.container {
-	height : auto;
+.notes-container {
+	height : 100%;
+	overflow : auto;
 }
-
-
 
 #add-note{
 	position : absolute;
 	bottom : 30px;
-	right : 50px;
+	right : 30px;
 	width : 150px;
-	height : 150px;
+	height : 200px;
 	display : flex;
 	justify-content: center;
 	align-items : center;
-	border-radius : 50%;
+	border-radius : 40%;
 	background : #222;
 	box-shadow : 0 0 5px #00fafa;
 	cursor : pointer;
+	z-index : 9999;
 }
+
 #add-note>p{
 	font-size : 100px;
 }
 
-#group {
+#reset-btn {
 	position : absolute;
 	background : #222;
 	padding : 20px;
 	bottom : 30px;
-	right : 230px;
+	right : 200px;
 	box-shadow : 0 0 5px #00fafa;
 	cursor : pointer;
-	border-radius : 40%;
+	border-radius : 20px 50% 10px 20px;
+	z-index : 9999;
 }
 
 .input-box {
@@ -96,33 +91,34 @@ body {
 	outline : none;
 	overflow: hidden;
 	box-shadow : 0 0 10px #000;
-	background : #333;
+	background : #444444;
 	display : flex;
+	flex-direction : column;
 	justify-content : center;
+	gap : 5px;
 }
 
 .input-box>textarea {
-	position : relative;
-	height  :90%;
-	width : 100%;
+	height  :100%;
+	width : auto;
 	overflow : auto;
 	border : none;
 	outline : none;
-	background : #222;
+	background : #444;
+	border-top : 1px solid #333;
+	border-bottom : 1px solid #333;
+	padding : 3px;
 }
 
 #cancella {
 	border : 1px solid #00fafa;
-	position : absolute;
-	width : 40px;
-	height : 40px;
+	width : 30px;
+	height : 30px;
 	display : flex;
 	justify-content : center;
 	align-items : center;
 	border-radius : 5px;
-	bottom : 7px;
-	right : 25px;
-
+	margin-left : 20px;
 }
 
 #cancella>img  {
@@ -131,12 +127,27 @@ body {
 	background : #00fafa;
 	border-radius : 5px;
 	cursor : pointer;
-
 }
 
+#containerBtn {
+	display : flex;
+}
+
+#btnIncreaseFont, #btnDecreaseFont {
+	border-radius : 5px;
+	display : flex;
+	justify-content : center;
+	align-items : center;
+	font-size : 30px;
+	width : 100px;
+	height : 30px;
+	background : #555;
+}
 .footer {
 	position : absolute;
 	bottom : 0px;
+	right : 30px;
 }
-
-
+.footer>#sticky {
+	font-size : 10px;
+}
