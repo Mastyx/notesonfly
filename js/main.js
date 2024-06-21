@@ -30,8 +30,8 @@ document.addEventListener("DOMContentLoaded", ()=> {
 			this.inputBox.className = "input-box";
 			this.inputBox.style.top = this.position.top + "px";
 			this.inputBox.style.left = this.position.left + "px";
-			this.inputBox.style.width = this.width + "px";
-			this.inputBox.style.height = this.height + "px";
+			this.inputBox.style.width = this.size.width + "px";
+			this.inputBox.style.height = this.size.height + "px";
 			this.inputBox.style.zIndex = ++zIndexCount;
 			// elemento nota 
 			this.note = document.createElement("textarea");
@@ -169,7 +169,7 @@ document.addEventListener("DOMContentLoaded", ()=> {
 				stop: (event, ui) => {
 					this.note.style.width = "100%";
 					this.note.style.height = "100%";
-					this.size = { width : ui.size.widht , height : ui.size.height };
+					this.size = { width : ui.size.width , height : ui.size.height };
 					saveNotes();
 				},
 			});
@@ -185,7 +185,7 @@ document.addEventListener("DOMContentLoaded", ()=> {
 		//reset position e resize all notes
 		resetPositionResize(index) {
 			const originalWidth = 400;
-			const originalHeight = 400;
+			const originalHeight = 300;
 			const margin = 10;
 			const top = 100 + (originalHeight + margin) * index;
 
@@ -197,7 +197,7 @@ document.addEventListener("DOMContentLoaded", ()=> {
 			this.note.style.width = "100%";
 			this.note.style.height = `100%`;
 
-			this.size = {with: originalWidth, height : originalHeight };
+			this.size = {width: originalWidth, height : originalHeight };
 			this.position = {top: top, left: 10};
 			saveNotes();
 		}
@@ -207,7 +207,7 @@ document.addEventListener("DOMContentLoaded", ()=> {
 	
 	newNoteButton.addEventListener("click", ()=> {
 
-		let nota = new Nota("", {top: 100 + notes.length*5 , left: 10+ notes.length*5}, {width: 400, height: 300} );
+		let nota = new Nota("", {top: 100 + notes.length*5 , left: 10+ notes.length*5}, {width : 400, height : 300} );
 		notes.push(nota);
 		saveNotes();
 	});
