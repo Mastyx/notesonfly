@@ -57,7 +57,7 @@ document.addEventListener("DOMContentLoaded", ()=> {
 			this.containerBtn.appendChild(this.increaseFont);
 			this.containerBtn.appendChild(this.decreaseFont);
 			this.containerBtn.appendChild(this.cancella);
-
+		
 			this.inputBox.appendChild(this.note);
 			this.inputBox.appendChild(this.containerBtn);
 			noteContainer.appendChild(this.inputBox);
@@ -111,6 +111,7 @@ document.addEventListener("DOMContentLoaded", ()=> {
 			this.note.addEventListener("touchstart", (event)=>{
 				this.inputBox.draggable("disable");
 			});
+
 			// riabilito il drag 
 			this.note.addEventListener("touchend", (event)=>{
 				this.inputBox.draggable("enable");

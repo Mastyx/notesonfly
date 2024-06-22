@@ -35,7 +35,26 @@ body {
 .titolo>p{
 	font-size : 30px;
 }
-
+.titolo>#search-input {
+	background : #333;
+	color : #00fafa;
+	padding : 5px;
+	border-radius : 5px;
+	margin-left : 30px;
+	font-family : Kode Mono, sans-serif;
+}
+.titolo>#search-button {
+	background : #555;
+	border-radius : 5px;
+	padding : 5px;
+	width : 80px;
+	display : flex;
+	justify-content : center;
+	align-items : center;
+}
+.titolo>#search-button>i{
+	font-size : 30px;
+}
 #imageTitle {
 	width : 50px;
 	padding : 5px;
