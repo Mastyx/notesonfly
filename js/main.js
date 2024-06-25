@@ -8,6 +8,11 @@ document.addEventListener("DOMContentLoaded", ()=> {
 	let notes = [];
 	let zIndexCount = 1;
 
+	// per i linking
+	let linkingMode = false;
+	let firstNote = null;
+	let lines = [];
+
 	
 	class Nota {
 		constructor(content, position, size, fontsize) {
@@ -51,11 +56,18 @@ document.addEventListener("DOMContentLoaded", ()=> {
 			this.decreaseFont.id = "btnDecreaseFont";
 			this.decreaseFont.innerText = "-";
 
+			// aggiungiamo pulsante per i collegamenti
+			this.linkButton = document.createElement("button");
+			this.linkButton.id = 'btnLink';
+			this.linkButton.innerHTML = "<i class='bx bx-link'></i>";
+			
+
 		
 			// colleghiamo il tutto 
 			this.cancella.appendChild(img);
 			this.containerBtn.appendChild(this.increaseFont);
 			this.containerBtn.appendChild(this.decreaseFont);
+			this.containerBtn.appendChild(this.linkButton);
 			this.containerBtn.appendChild(this.cancella);
 		
 			this.inputBox.appendChild(this.note);
@@ -70,6 +82,11 @@ document.addEventListener("DOMContentLoaded", ()=> {
 
 		// create function
 		addEventListener() {
+			// ascolta il pulsante collegamenti
+			this.linkButton.addEventListener("click", ()=>{
+				startLinking(this);
+			});
+
 			this.increaseFont.addEventListener("click", ()=>{
 				++this.fontSize;
 				this.updateFontSize(this.fontSize);	
@@ -206,6 +223,7 @@ document.addEventListener("DOMContentLoaded", ()=> {
 	}
 	// -----------end class---------------------------------------------
 	
+
 	newNoteButton.addEventListener("click", ()=> {
 
 		let nota = new Nota("", {top: 100 + notes.length*5 , left: 10+ notes.length*5}, {width : 400, height : 300} );
@@ -230,6 +248,7 @@ document.addEventListener("DOMContentLoaded", ()=> {
 		console.log('Loding Note ... ');
 		if (noteData) {
 			notes = noteData.map(data => new Nota(data.content, data.position, data.size, data.fontSize));
+			loadLinks();
 		}
 	}
 
@@ -242,6 +261,52 @@ document.addEventListener("DOMContentLoaded", ()=> {
 		resetResizePos();
 	})
 
+	
+	// funzione per gestire i collegamenti
+	const startLinking = (note)=>{
+		if (!linkingMode) {
+			linkingMode = true;
+			firstNote = note;
+			note.inputBox.border = "2px solid red";
+		} else {
+			linkingMode = false;
+			if (firstNote !== note) {
+				createLink(firstNote, note);
+			}
+			firstNote.inputBox.style.border = "";
+			firstNote = null;
+		}
+	}
+	
+	const createLink = (note1, note2)=>{
+		let line = new LeaderLine(
+			LeaderLine.areaAnchor(note1.inputBox),
+			LeaderLine.areaAnchor(note2.inputBox)
+		);
+		lines.push(line);
+		saveLinks();
+	}
+
+	const saveLinks= ()=> {
+		const linkData = lines.map(line => ({
+			startId: line.start.id,
+			endId: line.end.id
+		}));
+		localStorage.setItem("links", JSON.stringify(linkData));
+	};
+
+	const loadLinks = ()=> {
+	    const linkData = JSON.parse(localStorage.getItem('links'));
+		if (linkData) {
+			linkData.forEach(link => {
+				const startNote = notes.find(note => note.id === link.startId);
+				const endNote = notes.find(note => note.id === link.endId);
+				if (startNote && endNote) {
+					createLink(startNote, endNote);
+				}
+			});
+    }
+	};
 
 	loadNotes();
 	// richiama la funzione per caricare le note
