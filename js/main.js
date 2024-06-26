@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", ()=> {
 	
 	class Nota {
 		constructor(content, position, size, fontsize) {
-			this.id = 'note-'+ new Date().getTime(); 
+			this.id ='note-'+ new Date().getTime(); 
 			this.content = content || "";
 			this.position = position || { top : 100, left : 10};
 			this.size = size || { width : 400, height : 300 };
@@ -84,6 +84,8 @@ document.addEventListener("DOMContentLoaded", ()=> {
 		addEventListener() {
 			// ascolta il pulsante collegamenti
 			this.linkButton.addEventListener("click", ()=>{
+				console.log("id passato : ", this.note.id);
+				console.log("id passato : ", this );
 				startLinking(this);
 			});
 
@@ -103,6 +105,7 @@ document.addEventListener("DOMContentLoaded", ()=> {
 				if (confirmed) {
 					this.inputBox.remove();
 					notes = notes.filter( n => n !== this);
+					this.removeLinks();
 					saveNotes();
 				} 
 			});
@@ -163,6 +166,8 @@ document.addEventListener("DOMContentLoaded", ()=> {
 			});	
 		}
 
+
+
 		// gestisce il trascinamento
 		makeResizableAndDraggable() {
 			const originalWidth = $(this.inputBox).width();
@@ -171,6 +176,7 @@ document.addEventListener("DOMContentLoaded", ()=> {
 			$(this.inputBox).draggable({
 				containment : '.note-container',
 				drag : ()=>{
+					if (lines) updateLines();
 				},
 				stop : ()=> {
 					this.position = {
@@ -183,12 +189,14 @@ document.addEventListener("DOMContentLoaded", ()=> {
 
 			$(this.inputBox).resizable({
 				resize : (event, ui) => {
+					if (lines) updateLines();
 				},
 				stop: (event, ui) => {
 					this.note.style.width = "100%";
 					this.note.style.height = "100%";
-					this.size = { width : ui.size.width , height : ui.size.height };
+						this.size = { width : ui.size.width , height : ui.size.height };
 					saveNotes();
+					if (lines) updateLines();
 				},
 			});
 		}
@@ -219,11 +227,20 @@ document.addEventListener("DOMContentLoaded", ()=> {
 			this.position = {top: top, left: 10};
 			saveNotes();
 		}
-		 
+
+		removeLinks() {
+			lines = lines.filter(lineObj => {
+                if (lineObj.start === this.id || lineObj.end === this.id) {
+                    lineObj.line.remove();
+                    return false;
+                }
+                return true;
+            });
+            saveLinks();
+		} 
 	}
 	// -----------end class---------------------------------------------
 	
-
 	newNoteButton.addEventListener("click", ()=> {
 
 		let nota = new Nota("", {top: 100 + notes.length*5 , left: 10+ notes.length*5}, {width : 400, height : 300} );
@@ -245,9 +262,13 @@ document.addEventListener("DOMContentLoaded", ()=> {
 	const loadNotes = ()=> {
 		// carica le note di localStorage
 		const noteData = JSON.parse(localStorage.getItem('notes'));
-		console.log('Loding Note ... ');
+		console.log('Loding Note ... ', noteData);
 		if (noteData) {
-			notes = noteData.map(data => new Nota(data.content, data.position, data.size, data.fontSize));
+			notes = noteData.map(data => new Nota(
+				data.content, 
+				data.position, 
+				data.size, 
+				data.fontSize));
 			loadLinks();
 		}
 	}
@@ -267,51 +288,65 @@ document.addEventListener("DOMContentLoaded", ()=> {
 		if (!linkingMode) {
 			linkingMode = true;
 			firstNote = note;
-			note.inputBox.border = "2px solid red";
+			note.inputBox.style.border = "1px solid red";
 		} else {
 			linkingMode = false;
 			if (firstNote !== note) {
+				console.log(firstNote.id +" -" + note.id);
+				// non vengono passati gli id delle note
 				createLink(firstNote, note);
 			}
 			firstNote.inputBox.style.border = "";
 			firstNote = null;
 		}
 	}
-	
+
 	const createLink = (note1, note2)=>{
+		console.log('sono in createLink');
+		if (!note1 || !note2) return; // aggiungi questa linea
 		let line = new LeaderLine(
 			LeaderLine.areaAnchor(note1.inputBox),
 			LeaderLine.areaAnchor(note2.inputBox)
 		);
-		lines.push(line);
+		lines.push({ line: line, start: note1.id, end: note2.id });
+		console.log("lines :" + lines.length);
 		saveLinks();
 	}
 
-	const saveLinks= ()=> {
+	const saveLinks = ()=> {
 		const linkData = lines.map(line => ({
-			startId: line.start.id,
-			endId: line.end.id
+			startId: line.start,
+			endId: line.end
 		}));
 		localStorage.setItem("links", JSON.stringify(linkData));
 	};
 
 	const loadLinks = ()=> {
-	    const linkData = JSON.parse(localStorage.getItem('links'));
-		if (linkData) {
+		const linkData = JSON.parse(localStorage.getItem('links'));
+		  if (linkData) {
 			linkData.forEach(link => {
-				const startNote = notes.find(note => note.id === link.startId);
-				const endNote = notes.find(note => note.id === link.endId);
-				if (startNote && endNote) {
-					createLink(startNote, endNote);
-				}
+			  const startNote = notes.find(note => note.id === link.startId);
+			  const endNote = notes.find(note => note.id === link.endId);
+			  if (startNote && endNote) {
+				createLink(startNote, endNote);
+			  } else {
+				console.warn(`Impossibile trovare la nota di inizio o di fine per il collegamento: ${link.startId} - ${link.endId}`);
+			  }
 			});
-    }
+		  }		
 	};
 
+	function updateLines() {
+		lines.forEach(lineObj => {
+            const startEl = document.getElementById(lineObj.start).parentElement;
+            const endEl = document.getElementById(lineObj.end).parentElement;
+            if (startEl && endEl) {
+                lineObj.line.position();
+            }
+        });
+    }
+
 	loadNotes();
-	// richiama la funzione per caricare le note
-
-
 });
 
 
