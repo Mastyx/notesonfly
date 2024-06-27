@@ -15,8 +15,8 @@ document.addEventListener("DOMContentLoaded", ()=> {
 
 	
 	class Nota {
-		constructor(content, position, size, fontsize) {
-			this.id ='note-'+ new Date().getTime(); 
+		constructor(content, position, size, fontsize, id ) {
+			this.id = id || 'note-'+ new Date().getTime(); 
 			this.content = content || "";
 			this.position = position || { top : 100, left : 10};
 			this.size = size || { width : 400, height : 300 };
@@ -84,8 +84,8 @@ document.addEventListener("DOMContentLoaded", ()=> {
 		addEventListener() {
 			// ascolta il pulsante collegamenti
 			this.linkButton.addEventListener("click", ()=>{
-				console.log("id passato : ", this.note.id);
-				console.log("id passato : ", this );
+				console.log("id passato col button  : ", this.id);
+				console.log("oggetto passato col button : ", this );
 				startLinking(this);
 			});
 
@@ -201,14 +201,14 @@ document.addEventListener("DOMContentLoaded", ()=> {
 			});
 		}
 
-		// gestire il font size 
+		// fonts management
 		updateFontSize(size) {
 			this.fontSize = size;
 			this.note.style.fontSize = size + "px";
 			saveNotes();
 		}
 
-		//reset position e resize all notes
+		// reset size and position 
 		resetPositionResize(index) {
 			const originalWidth = 400;
 			const originalHeight = 300;
@@ -260,7 +260,7 @@ document.addEventListener("DOMContentLoaded", ()=> {
 	}
 
 	const loadNotes = ()=> {
-		// carica le note di localStorage
+		// load notes in localStorage 
 		const noteData = JSON.parse(localStorage.getItem('notes'));
 		console.log('Loding Note ... ', noteData);
 		if (noteData) {
@@ -268,11 +268,12 @@ document.addEventListener("DOMContentLoaded", ()=> {
 				data.content, 
 				data.position, 
 				data.size, 
-				data.fontSize));
+				data.fontSize,
+				data.id ));
 			loadLinks();
 		}
 	}
-
+	// reset notes position 
 	const resetResizePos = ()=>{
 		notes.forEach( (nota, index)=> {
 			nota.resetPositionResize(index);
@@ -280,11 +281,15 @@ document.addEventListener("DOMContentLoaded", ()=> {
 	}
 	resetBtn.addEventListener("click", ()=>{
 		resetResizePos();
+		updateLines();
 	})
 
 	
-	// funzione per gestire i collegamenti
+	// links management
 	const startLinking = (note)=>{
+		const load_all_notes = JSON.parse(localStorage.getItem('notes'));
+		console.log("in startLinking : ", load_all_notes);
+
 		if (!linkingMode) {
 			linkingMode = true;
 			firstNote = note;
@@ -293,7 +298,6 @@ document.addEventListener("DOMContentLoaded", ()=> {
 			linkingMode = false;
 			if (firstNote !== note) {
 				console.log(firstNote.id +" -" + note.id);
-				// non vengono passati gli id delle note
 				createLink(firstNote, note);
 			}
 			firstNote.inputBox.style.border = "";
@@ -305,8 +309,9 @@ document.addEventListener("DOMContentLoaded", ()=> {
 		console.log('sono in createLink');
 		if (!note1 || !note2) return; // aggiungi questa linea
 		let line = new LeaderLine(
-			LeaderLine.areaAnchor(note1.inputBox),
-			LeaderLine.areaAnchor(note2.inputBox)
+			note1.inputBox,
+			note2.inputBox,
+			{ startPlug : 'square'}
 		);
 		lines.push({ line: line, start: note1.id, end: note2.id });
 		console.log("lines :" + lines.length);
@@ -323,17 +328,21 @@ document.addEventListener("DOMContentLoaded", ()=> {
 
 	const loadLinks = ()=> {
 		const linkData = JSON.parse(localStorage.getItem('links'));
-		  if (linkData) {
+		if (linkData) {
 			linkData.forEach(link => {
-			  const startNote = notes.find(note => note.id === link.startId);
-			  const endNote = notes.find(note => note.id === link.endId);
-			  if (startNote && endNote) {
-				createLink(startNote, endNote);
-			  } else {
-				console.warn(`Impossibile trovare la nota di inizio o di fine per il collegamento: ${link.startId} - ${link.endId}`);
-			  }
+				const startNote = notes.find(note => note.id === link.startId);
+				const endNote = notes.find(note => note.id === link.endId);
+				if (startNote && endNote) {
+					const line = new LeaderLine(
+						startNote.inputBox,
+						endNote.inputBox
+					);
+					lines.push({ start: link.startId, end: link.endId, line: line });
+				} else {
+					console.warn(`Unable to find start or end note for link: ${link.startId} - ${link.endId}`)
+				}
 			});
-		  }		
+		}
 	};
 
 	function updateLines() {

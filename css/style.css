@@ -12,16 +12,17 @@
 	color : #00fafa;
 }
 body {
+	height : 100%;
 	background : var(--sfondo);
 }
 
 .container {
 	font-family: Kode Mono, sans-serif;	
 	padding : 10px;
-	width : 100vw;
+	width : 100%;
 	height : 100%;
 	background : var(--sfondo);
-	overflow : auto;
+	overflow : hidden;
 }
 
 .titolo {
@@ -46,39 +47,8 @@ body {
 
 .notes-container {
 	height : 100%;
+	width : 100%;
 	overflow : auto;
-}
-
-#add-note{
-	position : absolute;
-	bottom : 30px;
-	right : 30px;
-	width : 150px;
-	height : 200px;
-	display : flex;
-	justify-content: center;
-	align-items : center;
-	border-radius : 40%;
-	background : #222;
-	box-shadow : 0 0 5px #00fafa;
-	cursor : pointer;
-	z-index : 9999;
-}
-
-#add-note>p{
-	font-size : 100px;
-}
-
-#reset-btn {
-	position : absolute;
-	background : #222;
-	padding : 20px;
-	bottom : 30px;
-	right : 200px;
-	box-shadow : 0 0 5px #00fafa;
-	cursor : pointer;
-	border-radius : 20px 50% 10px 20px;
-	z-index : 9999;
 }
 
 .input-box {
@@ -154,10 +124,44 @@ body {
 
 
 .footer {
-	position : absolute;
+	position : fixed;
 	bottom : 0px;
 	right : 30px;
+	z-index : 1000;
+	
 }
 .footer>#sticky {
 	font-size : 10px;
 }
+#add-note{
+	position : absolute;
+	bottom : 30px;
+	right : 30px;
+	width : 150px;
+	height : 200px;
+	display : flex;
+	justify-content: center;
+	align-items : center;
+	border-radius : 40%;
+	background : #222;
+	box-shadow : 0 0 5px #00fafa;
+	cursor : pointer;
+	z-index : 9999;
+}
+
+#add-note>p{
+	font-size : 100px;
+}
+
+#reset-btn {
+	position : absolute;
+	background : #222;
+	padding : 20px;
+	bottom : 30px;
+	right : 200px;
+	box-shadow : 0 0 5px #00fafa;
+	cursor : pointer;
+	border-radius : 20px 50% 10px 20px;
+	z-index : 9999;
+}
+
