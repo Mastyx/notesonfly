@@ -121,6 +121,13 @@ body {
 	background : #555;
 	width : 40px;
 }
+#btnUnlink {
+	margin-left : 10px;
+	color : #333;
+	background : #555;
+	width : 40px;
+
+}
 
 
 .footer {

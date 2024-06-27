@@ -56,18 +56,22 @@ document.addEventListener("DOMContentLoaded", ()=> {
 			this.decreaseFont.id = "btnDecreaseFont";
 			this.decreaseFont.innerText = "-";
 
-			// aggiungiamo pulsante per i collegamenti
+			// btn add link 
 			this.linkButton = document.createElement("button");
 			this.linkButton.id = 'btnLink';
 			this.linkButton.innerHTML = "<i class='bx bx-link'></i>";
-			
 
+			// btn remove link 
+			this.unlinkButton = document.createElement("button");
+			this.unlinkButton.id = "btnUnlink";
+			this.unlinkButton.innerHTML = "<i class='bx bx-unlink'></i>";
 		
 			// colleghiamo il tutto 
 			this.cancella.appendChild(img);
 			this.containerBtn.appendChild(this.increaseFont);
 			this.containerBtn.appendChild(this.decreaseFont);
 			this.containerBtn.appendChild(this.linkButton);
+			this.containerBtn.appendChild(this.unlinkButton);
 			this.containerBtn.appendChild(this.cancella);
 		
 			this.inputBox.appendChild(this.note);
@@ -87,6 +91,10 @@ document.addEventListener("DOMContentLoaded", ()=> {
 				console.log("id passato col button  : ", this.id);
 				console.log("oggetto passato col button : ", this );
 				startLinking(this);
+			});
+			// add listener for unlinkButton
+			this.unlinkButton.addEventListener("click", ()=>{
+				startUnlinking(this);
 			});
 
 			this.increaseFont.addEventListener("click", ()=>{
@@ -305,6 +313,21 @@ document.addEventListener("DOMContentLoaded", ()=> {
 		}
 	}
 
+	const startUnlinking = (note) => {
+		if (!linkingMode) {
+			linkingMode = true;
+			firstNote = note;
+			note.inputBox.style.border = "1px solid red";
+		} else {
+			linkingMode = false;
+			if (firstNote !== note) {
+				removeLinks(firstNote, note);
+			}
+			firstNote.inputBox.style.border = "";
+			firstNote = null;
+		}
+	}
+
 	const createLink = (note1, note2)=>{
 		console.log('sono in createLink');
 		if (!note1 || !note2) return; // aggiungi questa linea
@@ -317,6 +340,18 @@ document.addEventListener("DOMContentLoaded", ()=> {
 		console.log("lines :" + lines.length);
 		saveLinks();
 	}
+
+	const removeLinks = (note1, note2)=> {
+		lines = lines.filter(lineObj => { 
+		if ((lineObj.start === note1.id && lineObj.end === note2.id) || 
+            (lineObj.start === note2.id && lineObj.end === note1.id)) {
+            lineObj.line.remove();
+            return false;
+        }
+        return true;
+		});
+		saveLinks();
+	} 
 
 	const saveLinks = ()=> {
 		const linkData = lines.map(line => ({
