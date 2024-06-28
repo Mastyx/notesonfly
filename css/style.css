@@ -116,17 +116,25 @@ body {
 }
 
 #btnLink {
+	border-radius : 5px;
 	margin-left : 10px;
 	color : #333;
-	background : #555;
+	background : #00fafa;
 	width : 40px;
 }
+#btnlink>i {
+	color : #333;
+}
+
 #btnUnlink {
+	border-radius : 5px;
 	margin-left : 10px;
 	color : #333;
-	background : #555;
+	background : #00fafa;
 	width : 40px;
-
+}
+#btnUnlink>i {
+	color : #333;
 }
 
 
