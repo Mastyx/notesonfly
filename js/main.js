@@ -12,7 +12,6 @@ document.addEventListener("DOMContentLoaded", ()=> {
 	let linkingMode = false;
 	let firstNote = null;
 	let lines = [];
-
 	
 	class Nota {
 		constructor(content, position, size, fontsize, id ) {
@@ -170,6 +169,12 @@ document.addEventListener("DOMContentLoaded", ()=> {
 					setTimeout(()=>{
 						this.note.scrollTop = this.note.scrollHeight;
 					}, 0 );
+				}
+
+				// shortcut che non va 
+				if (event.ctrlKey && event.key === 'j') {
+					event.preventDefault();
+					console.log(' - - ctrl press - -');
 				}
 			});	
 		}
