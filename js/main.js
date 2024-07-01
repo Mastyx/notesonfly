@@ -441,7 +441,7 @@ document.addEventListener("DOMContentLoaded", ()=> {
 	const createInfoNote = ()=>{
 		let defaultNoteContent = '';
 
-		fetch('../info.txt')
+		fetch('./info.txt')
 			.then(response => response.text())
 			.then(data => {
 				defaultNoteContent = data;
