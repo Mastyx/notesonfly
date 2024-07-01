@@ -25,10 +25,11 @@ document.addEventListener("DOMContentLoaded", ()=> {
 		// il costruttore richiama la nota
 		createElement() {
 			// div cancella contenente l'immagine cestino 
-			this.cancella = document.createElement("div");
+			this.cancella = document.createElement("button");
 			this.cancella.id = "cancella";
-			let img = document.createElement("img");
-			img.src = "../trash.png";
+			this.cancella.innerHTML = "X";
+			//let img = document.createElement("img");
+			//img.src = "../trash.png";
 
 			this.inputBox = document.createElement("div");
 			this.inputBox.className = "input-box";
@@ -71,7 +72,7 @@ document.addEventListener("DOMContentLoaded", ()=> {
 			this.moveNote.innerHTML = "<i class='bx bx-move'></i>"
 		
 			// colleghiamo il tutto 
-			this.cancella.appendChild(img);
+			//this.cancella.appendChild(img);
 			this.containerBtn.appendChild(this.increaseFont);
 			this.containerBtn.appendChild(this.decreaseFont);
 			this.containerBtn.appendChild(this.linkButton);
