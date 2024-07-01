@@ -16,6 +16,8 @@ body {
 	background : var(--sfondo);
 }
 
+
+
 .container {
 	font-family: Kode Mono, sans-serif;	
 	padding : 10px;
@@ -56,13 +58,14 @@ body {
 	top : 100px;
 	left : 100px;
 	max-width : 1000px;
+	min-width : 420px;
 	border : 1px solid #333;
 	border-radius : 5px;
 	padding : 10px;
 	outline : none;
 	overflow: hidden;
 	box-shadow : 0 0 10px #000;
-	background : #444444;
+	background : #444;
 	display : flex;
 	flex-direction : column;
 	justify-content : center;
@@ -137,11 +140,22 @@ body {
 	color : #333;
 }
 
+#moveNote {
+	position : absolute;
+	right : 15px;
+	bottom : 10px;
+	display : flex;
+	align-items : center;
+}
+#moveNote>i {
+	font-size : 30px;
+}
+
 
 .footer {
 	position : fixed;
 	bottom : 0px;
-	right : 30px;
+	right : 00px;
 	z-index : 1000;
 	
 }
@@ -151,13 +165,13 @@ body {
 #add-note{
 	position : absolute;
 	bottom : 30px;
-	right : 30px;
+	right : 20px;
 	width : 150px;
-	height : 200px;
+	height : 150px;
 	display : flex;
 	justify-content: center;
 	align-items : center;
-	border-radius : 40%;
+	border-radius : 50% 0 0 0 ;
 	background : #222;
 	box-shadow : 0 0 5px #00fafa;
 	cursor : pointer;

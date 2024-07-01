@@ -40,6 +40,7 @@ document.addEventListener("DOMContentLoaded", ()=> {
 			// elemento nota 
 			this.note = document.createElement("textarea");
 			this.note.id = this.id; 
+			this.note.setAttribute("tabindex", "0");
 			this.note.style.fontSize = this.fontSize + "px";
 			this.note.value = this.content;
 
@@ -64,6 +65,10 @@ document.addEventListener("DOMContentLoaded", ()=> {
 			this.unlinkButton = document.createElement("button");
 			this.unlinkButton.id = "btnUnlink";
 			this.unlinkButton.innerHTML = "<i class='bx bx-unlink'></i>";
+
+			this.moveNote = document.createElement("p");
+			this.moveNote.id = "moveNote";
+			this.moveNote.innerHTML = "<i class='bx bx-move'></i>"
 		
 			// colleghiamo il tutto 
 			this.cancella.appendChild(img);
@@ -75,6 +80,8 @@ document.addEventListener("DOMContentLoaded", ()=> {
 		
 			this.inputBox.appendChild(this.note);
 			this.inputBox.appendChild(this.containerBtn);
+			this.inputBox.appendChild(this.moveNote);
+
 			noteContainer.appendChild(this.inputBox);
 			
 			// ascoltatore
@@ -87,8 +94,6 @@ document.addEventListener("DOMContentLoaded", ()=> {
 		addEventListener() {
 			// ascolta il pulsante collegamenti
 			this.linkButton.addEventListener("click", ()=>{
-				console.log("id passato col button  : ", this.id);
-				console.log("oggetto passato col button : ", this );
 				startLinking(this);
 			});
 			// add listener for unlinkButton
@@ -119,14 +124,15 @@ document.addEventListener("DOMContentLoaded", ()=> {
 			
 			this.inputBox.addEventListener("click", ()=>{
 				this.inputBox.focus();
-				console.log('click focus');
 				this.inputBox.style.zIndex = ++zIndexCount;
 			});
 
 			this.note.addEventListener('click', ()=>{
 				// aggiungio il focus sulla nota(textarea) 
 				// altrimenti su dis mobile non fa scrivere 
+				notes.forEach(note => note.inputBox.style.boxShadow = "0 0 10px #000")
 				this.note.focus();
+				this.inputBox.style.boxShadow = "0 0 10px #00fafa"
 			});
 	
 			// ascoltatore input
@@ -170,12 +176,6 @@ document.addEventListener("DOMContentLoaded", ()=> {
 						this.note.scrollTop = this.note.scrollHeight;
 					}, 0 );
 				}
-
-				// shortcut che non va 
-				if (event.ctrlKey && event.key === 'j') {
-					event.preventDefault();
-					console.log(' - - ctrl press - -');
-				}
 			});	
 		}
 
@@ -190,6 +190,7 @@ document.addEventListener("DOMContentLoaded", ()=> {
 				containment : '.note-container',
 				drag : ()=>{
 					if (lines) updateLines();
+					this.note.focus();
 				},
 				stop : ()=> {
 					this.position = {
@@ -250,7 +251,15 @@ document.addEventListener("DOMContentLoaded", ()=> {
                 return true;
             });
             saveLinks();
-		} 
+		}
+
+		bringToFront() {
+			// ripristina lo sfondo delle altre note
+			notes.forEach(note => note.inputBox.style.boxShadow ="0 0 10px #000")	
+			this.inputBox.style.boxShadow = "0 0 10px #00fafa";
+			this.inputBox.style.zIndex = ++zIndexCount;
+
+		}
 	}
 	// -----------end class---------------------------------------------
 	
@@ -394,6 +403,40 @@ document.addEventListener("DOMContentLoaded", ()=> {
             }
         });
     }
+	
+
+	document.addEventListener("keydown", (event)=>{
+		// listener for ctrl  + left arrow or right arrow
+		if (event.ctrlKey && 
+				(event.key === "ArrowLeft" || 
+				event.key === "ArrowRight")) 
+		{
+			console.log(event.key);
+			event.preventDefault();
+			navigateNotes(event.key);
+		}
+	});
+
+	const navigateNotes = (direction)=>{
+		if (notes.lenght === 0) return;
+		const focusNotes = document.activeElement;
+		let currentIndex = notes.findIndex(note => note.note === focusNotes);
+
+		if (currentIndex === -1) {
+			currentIndex = 0;
+		} else {
+			// move
+			if( direction === "ArrowLeft") {
+				currentIndex = (currentIndex === 0) ? notes.length - 1 : currentIndex - 1;
+			} else if (direction === "ArrowRight") {
+				currentIndex = (currentIndex === notes.length - 1) ? 0 : currentIndex + 1;
+			}
+		}
+		notes[currentIndex].bringToFront();
+		notes[currentIndex].note.focus();
+	}
+
+	
 
 	loadNotes();
 });
