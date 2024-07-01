@@ -4,7 +4,8 @@ document.addEventListener("DOMContentLoaded", ()=> {
 	
 	const noteContainer = document.querySelector(".notes-container");
 	const newNoteButton = document.getElementById("add-note");
-	const resetBtn = document.getElementById("reset-btn");	
+	const resetBtn = document.getElementById("reset-btn");
+	const info = document.getElementById("info");
 	let notes = [];
 	let zIndexCount = 1;
 
@@ -28,8 +29,6 @@ document.addEventListener("DOMContentLoaded", ()=> {
 			this.cancella = document.createElement("button");
 			this.cancella.id = "cancella";
 			this.cancella.innerHTML = "X";
-			//let img = document.createElement("img");
-			//img.src = "../trash.png";
 
 			this.inputBox = document.createElement("div");
 			this.inputBox.className = "input-box";
@@ -437,7 +436,29 @@ document.addEventListener("DOMContentLoaded", ()=> {
 		notes[currentIndex].note.focus();
 	}
 
-	
+
+	// create note for info 
+	const createInfoNote = ()=>{
+		let defaultNoteContent = '';
+
+		fetch('../info.txt')
+			.then(response => response.text())
+			.then(data => {
+				defaultNoteContent = data;
+				const defaultPosition = { top: 100, left: 10 };
+				const defaultSize = { width: 600, height: 400 };
+				const defaultFontSize = 13;
+				const nota = new Nota(defaultNoteContent, defaultPosition, defaultSize, defaultFontSize);
+				notes.push(nota);
+			})
+			.catch(error => console.error("info.txt not load !!! " + error));
+	}
+
+	info.addEventListener("click", ()=>{
+		createInfoNote();
+		console.log("create info note");
+	});
+
 
 	loadNotes();
 });
