@@ -66,7 +66,9 @@ Come funziona l'app:
 		iniziali.
 
 	Limitazioni:
-		Rimozione della cronologia: Eliminare la cronologia del browser cancellerà i dati nel localStorage, 
+		RIMOZIONE DELLA CRONOLOGIA : Eliminare la cronologia del browser cancellerà i dati nel localStorage, 
 			perdendo così tutte le note e collegamenti salvati.
 
 Questa applicazione è utile per prendere appunti, organizzare idee e mantenere traccia delle relazioni tra diverse note, tutto direttamente nel browser.
+
+Questo progetto è rilasciato sotto la Licenza MIT. Vedi il file [LICENSE](./LICENSE) per ulteriori dettagli.
