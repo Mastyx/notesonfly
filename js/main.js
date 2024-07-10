@@ -11,6 +11,9 @@ document.addEventListener("DOMContentLoaded", ()=> {
 	const dnlButton = document.getElementById("dnl-button");
 	let unsavedChanges = false; // flag for changes
 
+	const btnLoad = document.getElementById('btn-load');
+	const fileInput = document.getElementById("fileLoadContainer");
+
 	let notes = [];
 	let zIndexCount = 1;
 
@@ -549,6 +552,88 @@ document.addEventListener("DOMContentLoaded", ()=> {
 		updateSaveButtonVisual();
 	});
 	//------------------ end save notes in download folder ----------
+	//
+	//
+	let toggleFileLoadContainer	 = false;
+	const showFileLoadContainer = ()=> {
+		if(!toggleFileLoadContainer) {
+			fileInput.style.display = "flex";
+			toggleFileLoadContainer = true;
+		} else {
+			fileInput.style.display = "none";
+			toggleFileLoadContainer = false;
+		}
+	}
+	btnLoad.addEventListener("click", ()=>{
+		showFileLoadContainer();
+	});
+	
+
+	const loadNotesFromFile = (data)=> {
+		        // Cancella tutte le note e i collegamenti esistenti
+        noteContainer.innerHTML = '';
+        notes = [];
+        lines.forEach(lineObj => lineObj.line.remove());
+        lines = [];
+
+        // Crea nuove note
+        data.notes.forEach(noteData => {
+            const nota = new Nota(
+                noteData.content,
+                noteData.position,
+                noteData.size,
+                noteData.fontSize,
+                noteData.id
+            );
+            notes.push(nota);
+        });
+
+        // Crea nuovi collegamenti
+        data.links.forEach(linkData => {
+            const startNote = notes.find(note => note.id === linkData.startId);
+            const endNote = notes.find(note => note.id === linkData.endId);
+            if (startNote && endNote) {
+                const line = new LeaderLine(
+                    startNote.inputBox,
+                    endNote.inputBox
+                );
+                lines.push({ start: linkData.startId, end: linkData.endId, line: line });
+            } else {
+                console.warn(`Unable to find start or end note for link: ${linkData.startId} - ${linkData.endId}`);
+            }
+        });
+
+        saveNotes();
+        saveLinks();
+	}
+
+	const handleFileSelect = (event)=> {
+		console.log("Selezionato " + event.target.files);
+		const files = event.target.files;
+		if (files.length > 0) {
+			const file = files[0];
+			const reader = new FileReader();
+			reader.onload = function (e) {
+				try {
+					const data = JSON.parse(e.target.result);
+					console.log(data);
+					loadNotesFromFile(data);
+				} catch (error) {
+					console.error("Error parsing JSON file: ", error);
+                }
+            };
+            reader.readAsText(file);
+        }
+		toggleFileLoadContainer = true;
+		showFileLoadContainer();
+	}
+
+
+	fileInput.addEventListener("change", handleFileSelect );
+
+
+	
+	// ---------------- end load notes and links from json file ---- 
 	
 
 

@@ -49,7 +49,6 @@ body {
 }
 
 #btn-save {
-
 	display : flex;
 	justify-content : center;
 	align-items : center;
@@ -57,6 +56,17 @@ body {
 	border-radius : 5px;
 }
 #btn-save>i {
+	font-size : 30px;
+	padding : 5px;
+}
+#btn-load {
+	display : flex;
+	justify-content : center;
+	align-items : center;
+	background : #333;
+	border-radius : 5px;
+}
+#btn-load>i {
 	font-size : 30px;
 	padding : 5px;
 }
