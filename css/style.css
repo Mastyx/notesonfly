@@ -47,6 +47,55 @@ body {
 	padding : 5px;
 	border-radius : 5px;
 }
+
+#btn-save {
+
+	display : flex;
+	justify-content : center;
+	align-items : center;
+	background : #333;
+	border-radius : 5px;
+}
+#btn-save>i {
+	font-size : 30px;
+	padding : 5px;
+}
+
+#fileNameContainer {
+	position : absolute;
+	background : #555;
+	top : 100px;
+	left : 50%;
+	transform : translate(-50%, -50%);
+	padding : 20px;
+	border : 1px solid #00fafa;
+	border-radius : 10px;
+	box-shadow : 0 0 5px #00fafa;
+	display : flex;
+	gap : 20px;
+	z-index : 999;
+}
+#fileNameInput {
+	background : #333;
+	color : #CCC;
+	padding : 5px;
+	border-radius : 5px;
+}
+#dnl-button {
+	font-size : 20px;
+	width : 50px;
+	display : flex;
+	justify-content : center;
+	align-items : center;
+	padding : 5px;
+	background : #333;
+	border-radius : 5px;
+	
+}
+
+
+
+
 #imageTitle {
 	width : 50px;
 	padding : 5px;

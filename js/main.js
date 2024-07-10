@@ -6,6 +6,11 @@ document.addEventListener("DOMContentLoaded", ()=> {
 	const newNoteButton = document.getElementById("add-note");
 	const resetBtn = document.getElementById("reset-btn");
 	const info = document.getElementById("info");
+	
+	const btnSave = document.getElementById("btn-save");
+	const dnlButton = document.getElementById("dnl-button");
+	let unsavedChanges = false; // flag for changes
+
 	let notes = [];
 	let zIndexCount = 1;
 
@@ -118,6 +123,7 @@ document.addEventListener("DOMContentLoaded", ()=> {
 					this.inputBox.remove();
 					notes = notes.filter( n => n !== this);
 					this.removeLinks();
+					this.setUnsavedChange(true);
 					saveNotes();
 				} 
 			});
@@ -138,6 +144,7 @@ document.addEventListener("DOMContentLoaded", ()=> {
 			// ascoltatore input
 			this.note.addEventListener("input", ()=>{
 				this.content = this.note.value;	
+				this.setUnsavedChange(true);
 				saveNotes();
 			});
 			// disable drag quando tocco la textarea (note)
@@ -177,10 +184,9 @@ document.addEventListener("DOMContentLoaded", ()=> {
 					}, 0 );
 				}
 			});	
-		}
-
-
-
+		
+		} 
+	
 		// gestisce il trascinamento
 		makeResizableAndDraggable() {
 			const originalWidth = $(this.inputBox).width();
@@ -197,7 +203,9 @@ document.addEventListener("DOMContentLoaded", ()=> {
 						top : this.inputBox.offsetTop,
 						left : this.inputBox.offsetLeft
 					};
+					this.setUnsavedChange(true);
 					saveNotes();
+
 				}
 			});
 
@@ -209,6 +217,7 @@ document.addEventListener("DOMContentLoaded", ()=> {
 					this.note.style.width = "100%";
 					this.note.style.height = "100%";
 						this.size = { width : ui.size.width , height : ui.size.height };
+					this.setUnsavedChange(true);
 					saveNotes();
 					if (lines) updateLines();
 				},
@@ -219,6 +228,7 @@ document.addEventListener("DOMContentLoaded", ()=> {
 		updateFontSize(size) {
 			this.fontSize = size;
 			this.note.style.fontSize = size + "px";
+			this.setUnsavedChange(true);
 			saveNotes();
 		}
 
@@ -239,6 +249,7 @@ document.addEventListener("DOMContentLoaded", ()=> {
 
 			this.size = {width: originalWidth, height : originalHeight };
 			this.position = {top: top, left: 10};
+			this.setUnsavedChange(true);
 			saveNotes();
 		}
 
@@ -250,6 +261,7 @@ document.addEventListener("DOMContentLoaded", ()=> {
                 }
                 return true;
             });
+			this.setUnsavedChange(true);
             saveLinks();
 		}
 
@@ -260,12 +272,38 @@ document.addEventListener("DOMContentLoaded", ()=> {
 			this.inputBox.style.zIndex = ++zIndexCount;
 
 		}
-	}
-	// -----------end class---------------------------------------------
-	
-	newNoteButton.addEventListener("click", ()=> {
+		
+		setUnsavedChange(hasChanges) {
+			unsavedChanges = hasChanges;
+			updateSaveButtonVisual();
+		}
 
-		let nota = new Nota("", {top: 100 + notes.length*5 , left: 10+ notes.length*5}, {width : 400, height : 300} );
+
+	}
+	
+
+
+	// -----------end class---------------------------------------------
+
+
+
+
+	// function update btn-save visual
+	const updateSaveButtonVisual = ()=>{
+		if (unsavedChanges) {
+			btnSave.style.background = '#ff8000';
+		} else {
+			btnSave.style.background = '#333'
+		}
+	}
+
+	newNoteButton.addEventListener("click", ()=> {
+		let nota = new Nota("", {
+				top: 100 + notes.length*5 , 
+				left: 10+ notes.length*5}, 
+			{	
+				width : 400, 
+				height : 300} );
 		notes.push(nota);
 		saveNotes();
 	});
@@ -310,7 +348,6 @@ document.addEventListener("DOMContentLoaded", ()=> {
 	// links management
 	const startLinking = (note)=>{
 		const load_all_notes = JSON.parse(localStorage.getItem('notes'));
-		console.log("in startLinking : ", load_all_notes);
 
 		if (!linkingMode) {
 			linkingMode = true;
@@ -319,7 +356,7 @@ document.addEventListener("DOMContentLoaded", ()=> {
 		} else {
 			linkingMode = false;
 			if (firstNote !== note) {
-				console.log(firstNote.id +" -" + note.id);
+
 				createLink(firstNote, note);
 			}
 			firstNote.inputBox.style.border = "";
@@ -343,7 +380,6 @@ document.addEventListener("DOMContentLoaded", ()=> {
 	}
 
 	const createLink = (note1, note2)=>{
-		console.log('sono in createLink');
 		if (!note1 || !note2) return; // aggiungi questa linea
 		let line = new LeaderLine(
 			note1.inputBox,
@@ -351,7 +387,6 @@ document.addEventListener("DOMContentLoaded", ()=> {
 			{ startPlug : 'square'}
 		);
 		lines.push({ line: line, start: note1.id, end: note2.id });
-		console.log("lines :" + lines.length);
 		saveLinks();
 	}
 
@@ -411,7 +446,6 @@ document.addEventListener("DOMContentLoaded", ()=> {
 				(event.key === "ArrowLeft" || 
 				event.key === "ArrowRight")) 
 		{
-			console.log(event.key);
 			event.preventDefault();
 			navigateNotes(event.key);
 		}
@@ -456,8 +490,67 @@ document.addEventListener("DOMContentLoaded", ()=> {
 
 	info.addEventListener("click", ()=>{
 		createInfoNote();
-		console.log("create info note");
 	});
+
+
+
+	// ------------------ save notes in download folder -----------
+	let togglefileNameContainer = false; 
+	const showFileNameInput = ()=> {
+		if (!togglefileNameContainer) {
+			togglefileNameContainer = true;
+			document.getElementById("fileNameContainer").style.display = "flex";
+
+		} else {
+			togglefileNameContainer = false
+			document.getElementById("fileNameContainer").style.display = "none";
+		} 
+	}
+	btnSave.addEventListener("click", ()=>{ 
+		showFileNameInput();
+	})
+
+	const downloadNotes = ()=> {
+		const fileName = document.getElementById("fileNameInput").value || "notes";
+		
+		const notes = JSON.parse(localStorage.getItem('notes')) || [];
+		const links = JSON.parse(localStorage.getItem('links')) || [];
+
+		const notesData = notes.map(note => ({
+			id : note.id,
+			content: note.content,
+			position: note.position,
+			size: note.size,
+			fontSize: note.fontSize
+		}));
+
+		const data = {
+			notes : notesData,
+			links : links
+		}
+
+		const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+		const url = URL.createObjectURL(blob);
+		const a = document.createElement('a');
+		a.href = url;
+		a.download = `${fileName}.json`;
+		a.click();
+		URL.revokeObjectURL(url);
+
+		// Nascondi il contenitore dell'input dopo il download
+		document.getElementById('fileNameContainer').style.display = 'none';
+		togglefileNameContainer = false;
+
+
+	}
+	dnlButton.addEventListener("click", ()=>{
+		unsavedChanges = false; 
+		downloadNotes();
+		updateSaveButtonVisual();
+	});
+	//------------------ end save notes in download folder ----------
+	
+
 
 
 	loadNotes();
