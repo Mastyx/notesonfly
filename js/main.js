@@ -532,14 +532,15 @@ document.addEventListener("DOMContentLoaded", ()=> {
 			links : links
 		}
 
-		const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+		const blob = new Blob(
+			[JSON.stringify(data, null, 2)], { type: 'application/json' });
 		const url = URL.createObjectURL(blob);
 		const a = document.createElement('a');
 		a.href = url;
 		a.download = `${fileName}.json`;
 		a.click();
 		URL.revokeObjectURL(url);
-
+		console.log('Salvato : ' + fileName);
 		// Nascondi il contenitore dell'input dopo il download
 		document.getElementById('fileNameContainer').style.display = 'none';
 		togglefileNameContainer = false;
@@ -618,6 +619,7 @@ document.addEventListener("DOMContentLoaded", ()=> {
 					const data = JSON.parse(e.target.result);
 					console.log(data);
 					loadNotesFromFile(data);
+					data = '';
 				} catch (error) {
 					console.error("Error parsing JSON file: ", error);
                 }
@@ -628,16 +630,10 @@ document.addEventListener("DOMContentLoaded", ()=> {
 		showFileLoadContainer();
 	}
 
-
 	fileInput.addEventListener("change", handleFileSelect );
 
-
-	
 	// ---------------- end load notes and links from json file ---- 
 	
-
-
-
 	loadNotes();
 });
 
