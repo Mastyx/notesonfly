@@ -2,8 +2,8 @@
 
 :root {
 	--background : #555;
-	--background-textarea : #555;
-	--background-inputbox : #555;
+	--background-textarea : #444;
+	--background-inputbox : #444;
 }
 
 * {

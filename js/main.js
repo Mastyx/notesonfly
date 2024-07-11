@@ -45,6 +45,7 @@ document.addEventListener("DOMContentLoaded", ()=> {
 			this.inputBox.style.width = this.size.width + "px";
 			this.inputBox.style.height = this.size.height + "px";
 			this.inputBox.style.zIndex = ++zIndexCount;
+
 			// elemento nota 
 			this.note = document.createElement("textarea");
 			this.note.id = this.id; 
@@ -76,7 +77,8 @@ document.addEventListener("DOMContentLoaded", ()=> {
 			this.unlinkButton = document.createElement("button");
 			this.unlinkButton.id = "btnUnlink";
 			this.unlinkButton.innerHTML = "<i class='bx bx-unlink'></i>";
-
+			
+			// segno muovi nota 
 			this.moveNote = document.createElement("p");
 			this.moveNote.id = "moveNote";
 			this.moveNote.innerHTML = "<i class='bx bx-move'></i>"
@@ -147,7 +149,9 @@ document.addEventListener("DOMContentLoaded", ()=> {
 				this.note.focus();
 				this.inputBox.style.boxShadow = "0 0 10px #00fafa"
 			});
+			
 
+			// hidden button when focus lost 
 			this.note.addEventListener("focus", ()=>{
 				this.containerBtn.style.display = "flex";
 				setTimeout(()=>{
@@ -161,7 +165,7 @@ document.addEventListener("DOMContentLoaded", ()=> {
 				}, 500);
 			});
 	
-			// ascoltatore input
+			// listener input
 			this.note.addEventListener("input", ()=>{
 				this.content = this.note.value;	
 				this.setUnsavedChange(true);
@@ -652,6 +656,4 @@ document.addEventListener("DOMContentLoaded", ()=> {
 	
 	loadNotes();
 });
-
-
 
