@@ -55,6 +55,9 @@ document.addEventListener("DOMContentLoaded", ()=> {
 			// gestione size testo
 			this.containerBtn = document.createElement("div");
 			this.containerBtn.id = "containerBtn";
+			this.containerBtn.style.display = "none";
+			this.containerBtn.style.opacity = "0";
+			this.containerBtn.style.transition = "opacity 0.5s";
 		
 			this.increaseFont = document.createElement("button");
 			this.increaseFont.id = "btnIncreaseFont";
@@ -100,6 +103,7 @@ document.addEventListener("DOMContentLoaded", ()=> {
 
 		// create function
 		addEventListener() {
+
 			// ascolta il pulsante collegamenti
 			this.linkButton.addEventListener("click", ()=>{
 				startLinking(this);
@@ -142,6 +146,19 @@ document.addEventListener("DOMContentLoaded", ()=> {
 				notes.forEach(note => note.inputBox.style.boxShadow = "0 0 10px #000")
 				this.note.focus();
 				this.inputBox.style.boxShadow = "0 0 10px #00fafa"
+			});
+
+			this.note.addEventListener("focus", ()=>{
+				this.containerBtn.style.display = "flex";
+				setTimeout(()=>{
+					this.containerBtn.style.opacity = "1";
+				});
+			});
+			this.note.addEventListener("blur", ()=>{
+				this.containerBtn.style.opacity = "0";
+				setTimeout(()=>{
+					this.containerBtn.style.display = "none";
+				}, 500);
 			});
 	
 			// ascoltatore input
@@ -208,7 +225,6 @@ document.addEventListener("DOMContentLoaded", ()=> {
 					};
 					this.setUnsavedChange(true);
 					saveNotes();
-
 				}
 			});
 
@@ -616,7 +632,7 @@ document.addEventListener("DOMContentLoaded", ()=> {
 			const reader = new FileReader();
 			reader.onload = function (e) {
 				try {
-					const data = JSON.parse(e.target.result);
+					let data = JSON.parse(e.target.result);
 					console.log(data);
 					loadNotesFromFile(data);
 					data = '';
