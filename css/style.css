@@ -72,6 +72,45 @@ body {
 	font-size : 30px;
 	padding : 5px;
 }
+#fileLoadContainer{
+	display: flex;
+}
+input[type="file"] {
+	display: flex;
+	background-color: #333;
+	color: #CCC;
+	border: none;
+	border-radius : 5px;
+	padding: 5px;
+	cursor: pointer;
+}
+
+input[type="file"]::-webkit-file-upload-button {
+	background-color: #444;
+	color: #CCC;
+	border: none;
+	border-radius : 5px;
+	padding: 5px;
+	cursor: pointer;
+}
+
+input[type="file"]::-moz-file-upload-button {
+	background-color: #444;
+	color: #fff;
+	border: none;
+	border-radius : 5px;
+	padding: 5px;
+	cursor: pointer;
+}
+
+input[type="file"]::file-selector-button {
+	background-color: #444;
+	color: #00fafa;
+	border: none;
+	padding: 5px;
+	cursor: pointer;
+}
+
 
 #fileNameContainer {
 	position : absolute;

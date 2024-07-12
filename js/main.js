@@ -22,6 +22,7 @@ document.addEventListener("DOMContentLoaded", ()=> {
 	let firstNote = null;
 	let lines = [];
 	
+	
 	class Nota {
 		constructor(content, position, size, fontsize, id ) {
 			this.id = id || 'note-'+ new Date().getTime(); 
@@ -152,18 +153,40 @@ document.addEventListener("DOMContentLoaded", ()=> {
 			
 
 			// hidden button when focus lost 
-			this.note.addEventListener("focus", ()=>{
-				this.containerBtn.style.display = "flex";
-				setTimeout(()=>{
-					this.containerBtn.style.opacity = "1";
+			let isFocused = false;
+			const showButtons = ()=>{
+				this.containerBtn.style.display = 'flex';
+				setTimeout( ()=>{
+					this.containerBtn.style.opacity = 1;
 				});
+			}
+			const hiddenButtons = ()=> {
+				this.containerBtn.style.display = 'none';
+				setTimeout( ()=>{
+					this.containerBtn.sty.opacity = '0';
+				}, 500);
+			}
+
+			this.note.addEventListener("focus", ()=>{
+				isFocused = true;
+				showButtons();
 			});
 			this.note.addEventListener("blur", ()=>{
-				this.containerBtn.style.opacity = "0";
+				isFocused = false;
 				setTimeout(()=>{
-					this.containerBtn.style.display = "none";
-				}, 500);
+					if(!isFocused) hiddenButtons();
+				}, 300);
 			});
+			this.inputBox.addEventListener("focus", ()=>{
+				isFocused = true;
+				showButtons();
+			}, true);
+			this.inputBox.addEventListener("blur", ()=>{
+				isFocused = false;
+				setTimeout( ()=>{
+					if(!isFocused) hiddenButtons();
+				}, 300)
+			}, true);
 	
 			// listener input
 			this.note.addEventListener("input", ()=>{
@@ -202,7 +225,9 @@ document.addEventListener("DOMContentLoaded", ()=> {
 					const leadingTabs = lineText.match(/^\s*/)[0];
 					this.note.value = this.note.value.substring(0, start) + '\n' +
 						leadingTabs + this.note.value.substring(end);
-					this.note.selectionStart = this.note.selectionEnd = start + 1 + leadingTabs.length;
+					this.note.selectionStart = 
+						this.note.selectionEnd = 
+							start + 1 + leadingTabs.length;
 					setTimeout(()=>{
 						this.note.scrollTop = this.note.scrollHeight;
 					}, 0 );
