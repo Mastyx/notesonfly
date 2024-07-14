@@ -61,6 +61,7 @@ body {
 	font-size : 30px;
 	padding : 5px;
 }
+
 #btn-load {
 	display : flex;
 	justify-content : center;
@@ -72,6 +73,9 @@ body {
 	font-size : 30px;
 	padding : 5px;
 }
+
+
+
 #fileLoadContainer{
 	display: flex;
 }
@@ -166,7 +170,7 @@ input[type="file"]::file-selector-button {
 	padding : 10px;
 	outline : none;
 	overflow: hidden;
-	box-shadow : 0 0 10px var(--background-inputbox);
+	box-shadow : 0 0 10px #000;
 	background : var(--background-inputbox);
 	display : flex;
 	flex-direction : column;

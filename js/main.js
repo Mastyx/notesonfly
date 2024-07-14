@@ -13,6 +13,7 @@ document.addEventListener("DOMContentLoaded", ()=> {
 
 	const btnLoad = document.getElementById('btn-load');
 	const fileInput = document.getElementById("fileLoadContainer");
+	const btnHighlight = document.getElementById("btn-highlight");
 
 	let notes = [];
 	let zIndexCount = 1;
@@ -163,7 +164,7 @@ document.addEventListener("DOMContentLoaded", ()=> {
 			const hiddenButtons = ()=> {
 				this.containerBtn.style.display = 'none';
 				setTimeout( ()=>{
-					this.containerBtn.sty.opacity = '0';
+					this.containerBtn.style.opacity = 0;
 				}, 500);
 			}
 
@@ -679,6 +680,9 @@ document.addEventListener("DOMContentLoaded", ()=> {
 
 	// ---------------- end load notes and links from json file ---- 
 	
+	// highlight text
+
+
 	loadNotes();
 });
 
