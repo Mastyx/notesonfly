@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", ()=> {
 	
 	// btn erase all notes
 	const btnClearAllNotes = document.getElementById("clear-notes-btn");
-	
+	const percentValue	= document.getElementById("percent");
 
 	let notes = [];
 	let zIndexCount = 1;
@@ -727,8 +727,9 @@ document.addEventListener("DOMContentLoaded", ()=> {
 			
 			scale = Math.round(scale * 10) / 10;
 			console.log(scale);
-			perZoom = scale * 100;
+			perZoom = Math.round(scale * 100);
 			console.log("Per Zoom : " + perZoom + "%")
+			percentValue.innerHTML = perZoom;
 
 			notes.forEach(note => {
 				note.inputBox.style.transform = `scale(${scale})`;
@@ -736,6 +737,7 @@ document.addEventListener("DOMContentLoaded", ()=> {
 			updateLines();
 		}
 	},{ passive : false });
+
 
 	loadNotes();
 

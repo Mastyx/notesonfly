@@ -339,6 +339,6 @@ input[type="file"]::file-selector-button {
 	padding : 3px;
 }
 #info-zoom>#percent {
-	font-size : 10px;
+	font-size : 20px;
 }
 
