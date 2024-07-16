@@ -1,7 +1,6 @@
 // v2
 
 document.addEventListener("DOMContentLoaded", ()=> {
-	
 	const noteContainer = document.querySelector(".notes-container");
 	const newNoteButton = document.getElementById("add-note");
 	const resetBtn = document.getElementById("reset-btn");
@@ -13,7 +12,10 @@ document.addEventListener("DOMContentLoaded", ()=> {
 
 	const btnLoad = document.getElementById('btn-load');
 	const fileInput = document.getElementById("fileLoadContainer");
-	const btnHighlight = document.getElementById("btn-highlight");
+	
+	// btn erase all notes
+	const btnClearAllNotes = document.getElementById("clear-notes-btn");
+	
 
 	let notes = [];
 	let zIndexCount = 1;
@@ -678,11 +680,64 @@ document.addEventListener("DOMContentLoaded", ()=> {
 
 	fileInput.addEventListener("change", handleFileSelect );
 
+	
 	// ---------------- end load notes and links from json file ---- 
 	
-	// highlight text
+	// erase all notes 
+	btnClearAllNotes.addEventListener("click", ()=>{
+		const noteContainer = document.querySelector(".notes-container");
+		
+		if ( noteContainer.children.length > 0 ) {
+			
+			if (confirm( "Are you sure, you want to delete all notes ?" )) {
+				while (noteContainer.firstChild) {
+					noteContainer.removeChild(noteContainer.firstChild);
+				}
+				lines.forEach(oggettoLinea => {oggettoLinea.line.remove()});
+				notes.forEach(oggettoNota => {oggettoNota.note.remove()});
+				lines = [];
+				notes = [];
+				saveLinks();
+				saveNotes();
 
+			}
+		} else {
+
+			alert("No notes to delete !");
+		}
+	});
+
+
+
+	// manage zoom InputBox anl line link
+	let scale = 1;
+	let perZoom = 1;
+	document.addEventListener("wheel", (event)=>{
+		console.log("Evento Rotella : ", event )
+		if (event.ctrlKey && event.shiftKey) {
+			event.preventDefault();
+			console.log(event);
+			// limitiamo i valori da 0.5 a 3
+			if (event.deltaY > 0) {
+				scale += 0.1;
+			} else {
+				scale -= 0.1;
+			}
+			scale = Math.min(Math.max(0.3, scale), 3);
+			
+			scale = Math.round(scale * 10) / 10;
+			console.log(scale);
+			perZoom = scale * 100;
+			console.log("Per Zoom : " + perZoom + "%")
+
+			notes.forEach(note => {
+				note.inputBox.style.transform = `scale(${scale})`;
+			})
+			updateLines();
+		}
+	},{ passive : false });
 
 	loadNotes();
+
 });
 
