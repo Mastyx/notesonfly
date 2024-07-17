@@ -30,7 +30,7 @@ document.addEventListener("DOMContentLoaded", ()=> {
 		constructor(content, position, size, fontsize, id ) {
 			this.id = id || 'note-'+ new Date().getTime(); 
 			this.content = content || "";
-			this.position = position || { top : 100, left : 10};
+			this.position = position || { top : 500, left : 10};
 			this.size = size || { width : 400, height : 300 };
 			this.fontSize = fontsize || 16 ;
 			this.createElement();
@@ -52,7 +52,7 @@ document.addEventListener("DOMContentLoaded", ()=> {
 
 			// elemento nota 
 			this.note = document.createElement("textarea");
-			this.note.id = this.id; 
+			this.note.id = this.id;
 			this.note.setAttribute("tabindex", "0");
 			this.note.style.fontSize = this.fontSize + "px";
 			this.note.value = this.content;
@@ -323,7 +323,7 @@ document.addEventListener("DOMContentLoaded", ()=> {
 			this.inputBox.style.zIndex = ++zIndexCount;
 
 		}
-		
+		// controlla se ci sono stati cambiamenti	
 		setUnsavedChange(hasChanges) {
 			unsavedChanges = hasChanges;
 			updateSaveButtonVisual();
@@ -339,7 +339,7 @@ document.addEventListener("DOMContentLoaded", ()=> {
 
 
 
-	// function update btn-save visual
+	// function update btn-save visual (change color) 
 	const updateSaveButtonVisual = ()=>{
 		if (unsavedChanges) {
 			btnSave.style.background = '#ff8000';
@@ -347,14 +347,19 @@ document.addEventListener("DOMContentLoaded", ()=> {
 			btnSave.style.background = '#333'
 		}
 	}
-
-	newNoteButton.addEventListener("click", ()=> {
-		let nota = new Nota("", {
-				top: 100 + notes.length*5 , 
-				left: 10+ notes.length*5}, 
+	// create new note
+	newNoteButton.addEventListener("click", (event)=> {
+		// recupera la posizione dell'ultima nota e aggiunge 10
+		const position = {
+			top : notes[notes.length-1].position.top + 10,
+			left : notes[notes.length-1].position.left + 10
+		};
+		// crea la nuova nota passando la position
+		let nota = new Nota("", position, 
 			{	
 				width : 400, 
-				height : 300} );
+				height : 300 } 
+		);
 		notes.push(nota);
 		saveNotes();
 	});

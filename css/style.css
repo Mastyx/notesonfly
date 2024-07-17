@@ -156,6 +156,7 @@ input[type="file"]::file-selector-button {
 .notes-container {
 	height : 100%;
 	width : 100%;
+	outline : auto; 
 	overflow : auto;
 }
 
