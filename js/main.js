@@ -718,17 +718,14 @@ document.addEventListener("DOMContentLoaded", ()=> {
 	let scale = 1;
 	let perZoom = 1;
 	document.addEventListener("wheel", (event)=>{
-		console.log("Evento Rotella : ", event )
 		if (event.ctrlKey && event.shiftKey) {
 			event.preventDefault();
-			console.log(event);
-			// limitiamo i valori da 0.5 a 3
 			if (event.deltaY > 0) {
 				scale += 0.1;
 			} else {
 				scale -= 0.1;
 			}
-			scale = Math.min(Math.max(0.3, scale), 3);
+			scale = Math.min(Math.max(0.5, scale), 3);
 			
 			scale = Math.round(scale * 10) / 10;
 			console.log(scale);
