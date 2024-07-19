@@ -41,6 +41,7 @@ document.addEventListener("DOMContentLoaded", ()=> {
 			this.cancella = document.createElement("button");
 			this.cancella.id = "cancella";
 			this.cancella.innerHTML = "X";
+			this.cancella.title = "remove this note"
 
 			this.inputBox = document.createElement("div");
 			this.inputBox.className = "input-box";
@@ -76,11 +77,13 @@ document.addEventListener("DOMContentLoaded", ()=> {
 			this.linkButton = document.createElement("button");
 			this.linkButton.id = 'btnLink';
 			this.linkButton.innerHTML = "<i class='bx bx-link'></i>";
+			this.linkButton.title = "link";
 
 			// btn remove link 
 			this.unlinkButton = document.createElement("button");
 			this.unlinkButton.id = "btnUnlink";
 			this.unlinkButton.innerHTML = "<i class='bx bx-unlink'></i>";
+			this.unlinkButton.title = "unlink";
 			
 			// segno muovi nota 
 			this.moveNote = document.createElement("p");
@@ -147,7 +150,7 @@ document.addEventListener("DOMContentLoaded", ()=> {
 			});
 
 			this.note.addEventListener('click', ()=>{
-				// aggiungio il focus sulla nota(textarea) 
+				// aggiungo il focus sulla nota(textarea) 
 				// altrimenti su dis mobile non fa scrivere 
 				notes.forEach(note => note.inputBox.style.boxShadow = "0 0 10px #000")
 				this.note.focus();
@@ -350,16 +353,33 @@ document.addEventListener("DOMContentLoaded", ()=> {
 	// create new note
 	newNoteButton.addEventListener("click", (event)=> {
 		// recupera la posizione dell'ultima nota e aggiunge 10
-		const position = {
-			top : notes[notes.length-1].position.top + 10,
-			left : notes[notes.length-1].position.left + 10
-		};
-		// crea la nuova nota passando la position
-		let nota = new Nota("", position, 
-			{	
-				width : 400, 
-				height : 300 } 
-		);
+		let nota;
+		if (notes.length > 0) {
+			const position = {
+				top : notes[notes.length-1].position.top + 10,
+				left : notes[notes.length-1].position.left + 10
+			};
+					// crea la nuova nota passando la position
+			nota = new Nota("", position, 
+				{	
+					width : 400, 
+					height : 300 
+				});
+
+		} else {
+			// nel caso di prima nota viene 
+			nota = new Nota("", {
+				top : 100 + notes.length*5,
+				left : 10 + notes.length*5
+			}, 
+			{
+				width : 400,
+				height : 300
+			},
+
+			);
+
+		}
 		notes.push(nota);
 		saveNotes();
 	});
@@ -735,7 +755,10 @@ document.addEventListener("DOMContentLoaded", ()=> {
 
 			notes.forEach(note => {
 				note.inputBox.style.transform = `scale(${scale})`;
-			})
+			});
+			lines.forEach(link => {
+				link.line.style.transform = `scale(${scale})`;
+			});
 			updateLines();
 		}
 	},{ passive : false });
