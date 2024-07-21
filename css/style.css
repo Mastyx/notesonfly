@@ -4,6 +4,7 @@
 	--background : #555;
 	--background-textarea : #444;
 	--background-inputbox : #444;
+
 }
 
 * {
@@ -11,7 +12,7 @@
 	margin : 0;
 	box-sizing: border-box;
 	font-size : 20px;
-	color : #00fafa;
+	color : #77fafa;
 }
 body {
 	height : 100%;
@@ -61,6 +62,7 @@ body {
 	font-size : 30px;
 	padding : 5px;
 }
+
 #btn-load {
 	display : flex;
 	justify-content : center;
@@ -72,6 +74,9 @@ body {
 	font-size : 30px;
 	padding : 5px;
 }
+
+
+
 #fileLoadContainer{
 	display: flex;
 }
@@ -152,6 +157,7 @@ input[type="file"]::file-selector-button {
 .notes-container {
 	height : 100%;
 	width : 100%;
+	outline : auto; 
 	overflow : auto;
 }
 
@@ -265,13 +271,11 @@ input[type="file"]::file-selector-button {
 	font-size : 30px;
 }
 
-
 .footer {
 	position : fixed;
 	bottom : 0px;
 	right : 00px;
 	z-index : 1000;
-	
 }
 .footer>#sticky {
 	font-size : 10px;
@@ -285,26 +289,59 @@ input[type="file"]::file-selector-button {
 	display : flex;
 	justify-content: center;
 	align-items : center;
-	border-radius : 50% 0 0 10% ;
+	border-radius : 50% 10% 0 10% ;
 	background : #222;
-	box-shadow : 0 0 5px #00fafa;
 	cursor : pointer;
 	z-index : 9999;
 }
 
-#add-note>p {
-	font-size : 25px;
+#add-note>i{
+	font-size : 100px;
 }
 
 #reset-btn {
 	position : absolute;
-	background : #222;
-	padding : 20px;
+	background : #222;	
 	bottom : 30px;
 	right : 200px;
-	box-shadow : 0 0 5px #00fafa;
 	cursor : pointer;
-	border-radius : 20px 50% 10px 20px;
 	z-index : 9999;
+	border-radius : 10px;
 }
+#reset-btn>i {
+	font-size : 50px;
+	padding : 10px;
+}
+
+#clear-notes-btn {
+	position : absolute;
+	background : #222;
+	bottom : 30px;
+	right : 300px;
+	border-radius : 10px;
+}
+#clear-notes-btn>i {
+	font-size : 50px;
+	padding : 10px;
+}
+
+#info-zoom {
+	position : absolute;
+	bottom : 190px;
+	right : 20px;
+	background : #333;
+	border-radius : 10px;
+	padding : 3px;
+	display : flex;
+	align-items : center;
+}
+#info-zoom>i {
+	font-size : 20px;
+	padding : 3px;
+}
+#info-zoom>#percent {
+	font-size : 20px;
+}
+
+
 

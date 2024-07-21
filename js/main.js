@@ -1,7 +1,6 @@
 // v2
 
 document.addEventListener("DOMContentLoaded", ()=> {
-	
 	const noteContainer = document.querySelector(".notes-container");
 	const newNoteButton = document.getElementById("add-note");
 	const resetBtn = document.getElementById("reset-btn");
@@ -13,6 +12,10 @@ document.addEventListener("DOMContentLoaded", ()=> {
 
 	const btnLoad = document.getElementById('btn-load');
 	const fileInput = document.getElementById("fileLoadContainer");
+	
+	// btn erase all notes
+	const btnClearAllNotes = document.getElementById("clear-notes-btn");
+	const percentValue	= document.getElementById("percent");
 
 	let notes = [];
 	let zIndexCount = 1;
@@ -27,7 +30,7 @@ document.addEventListener("DOMContentLoaded", ()=> {
 		constructor(content, position, size, fontsize, id ) {
 			this.id = id || 'note-'+ new Date().getTime(); 
 			this.content = content || "";
-			this.position = position || { top : 100, left : 10};
+			this.position = position || { top : 500, left : 10};
 			this.size = size || { width : 400, height : 300 };
 			this.fontSize = fontsize || 16 ;
 			this.createElement();
@@ -38,6 +41,7 @@ document.addEventListener("DOMContentLoaded", ()=> {
 			this.cancella = document.createElement("button");
 			this.cancella.id = "cancella";
 			this.cancella.innerHTML = "X";
+			this.cancella.title = "remove this note"
 
 			this.inputBox = document.createElement("div");
 			this.inputBox.className = "input-box";
@@ -49,7 +53,7 @@ document.addEventListener("DOMContentLoaded", ()=> {
 
 			// elemento nota 
 			this.note = document.createElement("textarea");
-			this.note.id = this.id; 
+			this.note.id = this.id;
 			this.note.setAttribute("tabindex", "0");
 			this.note.style.fontSize = this.fontSize + "px";
 			this.note.value = this.content;
@@ -73,11 +77,13 @@ document.addEventListener("DOMContentLoaded", ()=> {
 			this.linkButton = document.createElement("button");
 			this.linkButton.id = 'btnLink';
 			this.linkButton.innerHTML = "<i class='bx bx-link'></i>";
+			this.linkButton.title = "link";
 
 			// btn remove link 
 			this.unlinkButton = document.createElement("button");
 			this.unlinkButton.id = "btnUnlink";
 			this.unlinkButton.innerHTML = "<i class='bx bx-unlink'></i>";
+			this.unlinkButton.title = "unlink";
 			
 			// segno muovi nota 
 			this.moveNote = document.createElement("p");
@@ -144,7 +150,7 @@ document.addEventListener("DOMContentLoaded", ()=> {
 			});
 
 			this.note.addEventListener('click', ()=>{
-				// aggiungio il focus sulla nota(textarea) 
+				// aggiungo il focus sulla nota(textarea) 
 				// altrimenti su dis mobile non fa scrivere 
 				notes.forEach(note => note.inputBox.style.boxShadow = "0 0 10px #000")
 				this.note.focus();
@@ -163,7 +169,7 @@ document.addEventListener("DOMContentLoaded", ()=> {
 			const hiddenButtons = ()=> {
 				this.containerBtn.style.display = 'none';
 				setTimeout( ()=>{
-					this.containerBtn.sty.opacity = '0';
+					this.containerBtn.style.opacity = 0;
 				}, 500);
 			}
 
@@ -320,7 +326,7 @@ document.addEventListener("DOMContentLoaded", ()=> {
 			this.inputBox.style.zIndex = ++zIndexCount;
 
 		}
-		
+		// controlla se ci sono stati cambiamenti	
 		setUnsavedChange(hasChanges) {
 			unsavedChanges = hasChanges;
 			updateSaveButtonVisual();
@@ -336,7 +342,7 @@ document.addEventListener("DOMContentLoaded", ()=> {
 
 
 
-	// function update btn-save visual
+	// function update btn-save visual (change color) 
 	const updateSaveButtonVisual = ()=>{
 		if (unsavedChanges) {
 			btnSave.style.background = '#ff8000';
@@ -344,14 +350,36 @@ document.addEventListener("DOMContentLoaded", ()=> {
 			btnSave.style.background = '#333'
 		}
 	}
+	// create new note
+	newNoteButton.addEventListener("click", (event)=> {
+		// recupera la posizione dell'ultima nota e aggiunge 10
+		let nota;
+		if (notes.length > 0) {
+			const position = {
+				top : notes[notes.length-1].position.top + 10,
+				left : notes[notes.length-1].position.left + 10
+			};
+					// crea la nuova nota passando la position
+			nota = new Nota("", position, 
+				{	
+					width : 400, 
+					height : 300 
+				});
 
-	newNoteButton.addEventListener("click", ()=> {
-		let nota = new Nota("", {
-				top: 100 + notes.length*5 , 
-				left: 10+ notes.length*5}, 
-			{	
-				width : 400, 
-				height : 300} );
+		} else {
+			// nel caso di prima nota viene 
+			nota = new Nota("", {
+				top : 100 + notes.length*5,
+				left : 10 + notes.length*5
+			}, 
+			{
+				width : 400,
+				height : 300
+			},
+
+			);
+
+		}
 		notes.push(nota);
 		saveNotes();
 	});
@@ -677,8 +705,62 @@ document.addEventListener("DOMContentLoaded", ()=> {
 
 	fileInput.addEventListener("change", handleFileSelect );
 
+	
 	// ---------------- end load notes and links from json file ---- 
 	
+	// erase all notes 
+	btnClearAllNotes.addEventListener("click", ()=>{
+		const noteContainer = document.querySelector(".notes-container");
+		
+		if ( noteContainer.children.length > 0 ) {
+			
+			if (confirm( "Are you sure, you want to delete all notes ?" )) {
+				while (noteContainer.firstChild) {
+					noteContainer.removeChild(noteContainer.firstChild);
+				}
+				lines.forEach(oggettoLinea => {oggettoLinea.line.remove()});
+				notes.forEach(oggettoNota => {oggettoNota.note.remove()});
+				lines = [];
+				notes = [];
+				saveLinks();
+				saveNotes();
+
+			}
+		} else {
+
+			alert("No notes to delete !");
+		}
+	});
+
+
+
+	// manage zoom InputBox anl line link
+	let scale = 1;
+	let perZoom = 1;
+	document.addEventListener("wheel", (event)=>{
+		if (event.ctrlKey && event.shiftKey) {
+			event.preventDefault();
+			if (event.deltaY > 0) {
+				scale += 0.1;
+			} else {
+				scale -= 0.1;
+			}
+			scale = Math.min(Math.max(0.5, scale), 3);
+			
+			scale = Math.round(scale * 10) / 10;
+			console.log(scale);
+			perZoom = Math.round(scale * 100);
+			console.log("Per Zoom : " + perZoom + "%")
+			percentValue.innerHTML = perZoom;
+
+			notes.forEach(note => {
+				note.inputBox.style.transform = `scale(${scale})`;
+			});
+			updateLines();
+		}
+	},{ passive : false });
+
 	loadNotes();
+
 });
 
