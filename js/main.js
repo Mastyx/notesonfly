@@ -760,7 +760,6 @@ document.addEventListener("DOMContentLoaded", ()=> {
 		}
 	},{ passive : false });
 
-
 	loadNotes();
 
 });
