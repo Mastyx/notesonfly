@@ -756,9 +756,6 @@ document.addEventListener("DOMContentLoaded", ()=> {
 			notes.forEach(note => {
 				note.inputBox.style.transform = `scale(${scale})`;
 			});
-			lines.forEach(link => {
-				link.line.style.transform = `scale(${scale})`;
-			});
 			updateLines();
 		}
 	},{ passive : false });
