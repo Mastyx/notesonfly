@@ -234,9 +234,12 @@ document.addEventListener("DOMContentLoaded", ()=> {
 					this.note.selectionStart = 
 						this.note.selectionEnd = 
 							start + 1 + leadingTabs.length;
-					setTimeout(()=>{
-						this.note.scrollTop = this.note.scrollHeight;
-					}, 0 );
+				//	setTimeout(()=>{
+				//		this.note.scrollTop = this.note.scrollHeight;
+				//	}, 0 );
+					//	dava il problema in quanto se premevo enter 
+					//	al centro della nota lunga mi portava alla fine 
+					//
 				}
 			});	
 		
