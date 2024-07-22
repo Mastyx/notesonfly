@@ -4,7 +4,6 @@
 	--background : #555;
 	--background-textarea : #444;
 	--background-inputbox : #444;
-
 }
 
 * {
@@ -187,8 +186,8 @@ input[type="file"]::file-selector-button {
 	border : none;
 	outline : none;
 	background : var(--background-textarea);
-	border-top : 1px solid #444;
-	border-bottom : 1px solid #444;
+	border-top : 1px solid #555;
+	border-bottom : 1px solid #555;
 	border-radius : 5px;
 	padding : 5px;
 	resize : none;

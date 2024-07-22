@@ -55,6 +55,7 @@ document.addEventListener("DOMContentLoaded", ()=> {
 			this.note = document.createElement("textarea");
 			this.note.id = this.id;
 			this.note.setAttribute("tabindex", "0");
+			this.note.setAttribute('spellcheck', 'false');
 			this.note.style.fontSize = this.fontSize + "px";
 			this.note.value = this.content;
 
