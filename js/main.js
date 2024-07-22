@@ -55,6 +55,7 @@ document.addEventListener("DOMContentLoaded", ()=> {
 			this.note = document.createElement("textarea");
 			this.note.id = this.id;
 			this.note.setAttribute("tabindex", "0");
+			this.note.setAttribute('spellcheck', 'false');
 			this.note.style.fontSize = this.fontSize + "px";
 			this.note.value = this.content;
 
@@ -234,9 +235,12 @@ document.addEventListener("DOMContentLoaded", ()=> {
 					this.note.selectionStart = 
 						this.note.selectionEnd = 
 							start + 1 + leadingTabs.length;
-					setTimeout(()=>{
-						this.note.scrollTop = this.note.scrollHeight;
-					}, 0 );
+				//	setTimeout(()=>{
+				//		this.note.scrollTop = this.note.scrollHeight;
+				//	}, 0 );
+					//	dava il problema in quanto se premevo enter 
+					//	al centro della nota lunga mi portava alla fine 
+					//
 				}
 			});	
 		
