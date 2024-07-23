@@ -263,6 +263,7 @@ input[type="file"]::file-selector-button {
 	border-radius : 5px;
 	padding : 5px;
 	resize : none;
+	line-height: 1.2;
 }
 
 /* Minimizzare la barra di scorrimento */

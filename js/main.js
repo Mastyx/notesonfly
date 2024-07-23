@@ -249,6 +249,23 @@ document.addEventListener("DOMContentLoaded", ()=> {
 					this.note.selectionStart = 
 						this.note.selectionEnd = 
 							start + 1 + leadingTabs.length;
+					
+					// controla se il cursore e alla fine della pagina per non farlo scomparire
+					const isAtBottom = this.note.scrollHeight - this.note.scrollTop === this.note.clientHeight;
+					setTimeout(() => {
+						if (isAtBottom) {
+							const lineHeight = parseInt(window.getComputedStyle(this.note).lineHeight, 10);
+							this.note.scrollTop += lineHeight * 5;
+						} else {
+							// Assicurati che il cursore sia visibile
+							const cursorPosition = this.note.selectionEnd;
+							const lineHeight = parseInt(window.getComputedStyle(this.note).lineHeight, 10);
+							const cursorY = Math.floor(cursorPosition / this.note.cols) * lineHeight;
+							if (cursorY > this.note.scrollTop + this.note.clientHeight - lineHeight) {
+								this.note.scrollTop = cursorY - this.note.clientHeight + lineHeight;
+							}
+						}
+					}, 0);
 				}
 			});	
 		
@@ -346,9 +363,6 @@ document.addEventListener("DOMContentLoaded", ()=> {
 
 
 	}
-	
-
-
 	// -----------end class---------------------------------------------
 
 
@@ -736,7 +750,6 @@ document.addEventListener("DOMContentLoaded", ()=> {
 				notes = [];
 				saveLinks();
 				saveNotes();
-
 			}
 		} else {
 
