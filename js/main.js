@@ -37,77 +37,6 @@ document.addEventListener("DOMContentLoaded", ()=> {
 	
 
 
-
-	let toggleArtTitleContainer = true;
-
-	btnArtTitle.addEventListener("click", (event)=>{
-		if (toggleArtTitleContainer) {
-			toggleArtTitleContainer = false;
-			artTitleContainer.style.display = "flex";
-			artTitleContainer.style.top = 30+event.clientY+'px';
-			artTitleContainer.style.left = event.clientX+'px';
-			artTitleContainer.style.zIndex = '9999';
-		} else {
-			toggleArtTitleContainer = true;
-			artTitleContainer.style.display = 'none';
-		}
-	});
-
-// listener
-	btnDrawTitle.addEventListener("click", ()=>{
-		// click sul pulsante della Draw
-		drawParola(inputParola)
-	});
-
-	btnCopyClipboard.addEventListener("click", ()=>{
-		copyClipboard();
-	})
-	
-	// funzione che disegna il titolo 
-	const drawParola = (inputparola)=> {
-		const text = inputparola.value.toUpperCase();
-		console.log(text);
-		const block = '█';
-		const empty = " ";
-
-		let numRows = 5;
-		let numCols = 5;
-
-		// crea matrix bidimensional 
-		const liness = Array(numRows).fill("").map(
-			()=> Array(text.length * (numCols + 1)).fill(empty)
-		);
-
-		console.log(liness);
-		console.log(letters);
-
-	text.split('').forEach((char, charIndex) => {
-		const matrix = letters[char] || ["00000", "00000", "00000", "00000", "00000"];
-		for (let i = 0; i < numRows; i++) {
-			for (let j = 0; j < numCols; j++) {
-				if (matrix[i][j] === '1') {
-					liness[i][charIndex * (numCols + 1) + j] = block;
-				}
-			}
-		}
-	});
-		areaTitle.value = liness.map(line => line.join('')).join('\n');
-	}
-
-	// funzione che seleziona il titolo e lo inserisce 
-	// nella clipboard
-	const copyClipboard = ()=>{
-		areaTitle.select();
-		areaTitle.setSelectionRange(0, 9999);// for mobile
-		try {
-			document.execCommand("copy")
-			alert("Testo copiato negli appunti");
-		} catch(err) {
-			alert ("Errore nella copia : ", err);
-		}
-
-	}
-	
 	
   // -------------------------------------------------- //
 	// inizio della classe Nota per creare istanze note	
@@ -320,12 +249,6 @@ document.addEventListener("DOMContentLoaded", ()=> {
 					this.note.selectionStart = 
 						this.note.selectionEnd = 
 							start + 1 + leadingTabs.length;
-				//	setTimeout(()=>{
-				//		this.note.scrollTop = this.note.scrollHeight;
-				//	}, 0 );
-					//	dava il problema in quanto se premevo enter 
-					//	al centro della nota lunga mi portava alla fine 
-					//
 				}
 			});	
 		
@@ -848,6 +771,85 @@ document.addEventListener("DOMContentLoaded", ()=> {
 			updateLines();
 		}
 	},{ passive : false });
+
+
+// -- --- --- -- -- -code for title create
+	let toggleArtTitleContainer = true;
+
+	const funcToggleArtTitleContainer = ()=>{
+		if (toggleArtTitleContainer) {
+			toggleArtTitleContainer = false;
+			artTitleContainer.style.display = "flex";
+			artTitleContainer.style.top = 30+event.clientY+'px';
+			artTitleContainer.style.left = event.clientX+'px';
+			artTitleContainer.style.zIndex = '9999';
+		} else {
+			toggleArtTitleContainer = true;
+			artTitleContainer.style.display = 'none';
+		}
+	}
+
+	btnArtTitle.addEventListener("click", (event)=>{
+		funcToggleArtTitleContainer()
+	});
+
+// listener
+	btnDrawTitle.addEventListener("click", ()=>{
+		// click sul pulsante della Draw
+		drawParola(inputParola)
+	});
+
+	btnCopyClipboard.addEventListener("click", ()=>{
+		copyClipboard();
+	})
+	
+	// funzione che disegna il titolo 
+	const drawParola = (inputparola)=> {
+		const text = inputparola.value.toUpperCase();
+		console.log(text);
+		const block = '█';
+		const empty = " ";
+
+		let numRows = 5;
+		let numCols = 5;
+
+		// crea matrix bidimensional 
+		const liness = Array(numRows).fill("").map(
+			()=> Array(text.length * (numCols + 1)).fill(empty)
+		);
+
+		console.log(liness);
+		console.log(letters);
+
+	text.split('').forEach((char, charIndex) => {
+		const matrix = letters[char] || ["00000", "00000", "00000", "00000", "00000"];
+		for (let i = 0; i < numRows; i++) {
+			for (let j = 0; j < numCols; j++) {
+				if (matrix[i][j] === '1') {
+					liness[i][charIndex * (numCols + 1) + j] = block;
+				}
+			}
+		}
+	});
+		areaTitle.value = liness.map(line => line.join('')).join('\n');
+	}
+
+	// funzione che seleziona il titolo e lo inserisce 
+	// nella clipboard
+	const copyClipboard = ()=>{
+		toggleArtTitleContainer = false;
+		areaTitle.select();
+		areaTitle.setSelectionRange(0, 9999);// for mobile
+		try {
+			document.execCommand("copy")
+			alert("Testo copiato negli appunti");
+		} catch(err) {
+			alert ("Errore nella copia : ", err);
+		}
+		funcToggleArtTitleContainer(); // chiude la window
+	}
+	
+
 
 	loadNotes();
 

@@ -196,7 +196,28 @@ input[type="file"]::file-selector-button {
 	overflow-x : auto;
 	white-space: nowrap;
 	resize : none;
+	padding : 5px;
 }
+
+#art-titleArea::-webkit-scrollbar {
+	height: 10px; /* Larghezza della barra di scorrimento */
+}
+
+#art-titleArea::-webkit-scrollbar-thumb {
+	background-color: #555; /* Colore della parte mobile della barra */
+	border-radius: 10px; /* Arrotondare gli angoli */
+}
+
+#art-titleArea::-webkit-scrollbar-thumb:hover {
+	background-color: #CCC; /* Colore quando si passa sopra con il mouse */
+}
+
+#art-titleArea::-webkit-scrollbar-track {
+	background-color: #444; /* Colore del track */
+	border-radius: 10px; /* Arrotondare gli angoli */
+}
+
+
 
 
 #imageTitle {
