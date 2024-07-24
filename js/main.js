@@ -33,10 +33,6 @@ document.addEventListener("DOMContentLoaded", ()=> {
 	let linkingMode = false;
 	let firstNote = null;
 	let lines = [];
-
-	
-
-
 	
   // -------------------------------------------------- //
 	// inizio della classe Nota per creare istanze note	
@@ -251,7 +247,8 @@ document.addEventListener("DOMContentLoaded", ()=> {
 							start + 1 + leadingTabs.length;
 					
 					// controla se il cursore e alla fine della pagina per non farlo scomparire
-					const isAtBottom = this.note.scrollHeight - this.note.scrollTop === this.note.clientHeight;
+					const isAtBottom = this.note.scrollHeight - 
+							this.note.scrollTop === this.note.clientHeight;
 					setTimeout(() => {
 						if (isAtBottom) {
 							const lineHeight = parseInt(window.getComputedStyle(this.note).lineHeight, 10);
@@ -859,6 +856,7 @@ document.addEventListener("DOMContentLoaded", ()=> {
 		} catch(err) {
 			alert ("Errore nella copia : ", err);
 		}
+		inputParola.value = '';
 		funcToggleArtTitleContainer(); // chiude la window
 	}
 	
