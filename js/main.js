@@ -1,4 +1,4 @@
-// v2
+import { letters } from "./data.js";
 
 document.addEventListener("DOMContentLoaded", ()=> {
 	const noteContainer = document.querySelector(".notes-container");
@@ -17,6 +17,15 @@ document.addEventListener("DOMContentLoaded", ()=> {
 	const btnClearAllNotes = document.getElementById("clear-notes-btn");
 	const percentValue	= document.getElementById("percent");
 
+
+	const btnArtTitle = document.getElementById("btn-art-title");
+	const artTitleContainer = document.querySelector(".art-titleContainer");
+	const btnDrawTitle = document.getElementById("btn-draw-title");
+	const btnCopyClipboard = document.getElementById("btn-copy-clipboard");
+	
+	const inputParola = document.getElementById("parola");
+	const areaTitle = document.getElementById("art-titleArea");
+
 	let notes = [];
 	let zIndexCount = 1;
 
@@ -25,7 +34,8 @@ document.addEventListener("DOMContentLoaded", ()=> {
 	let firstNote = null;
 	let lines = [];
 	
-	
+  // -------------------------------------------------- //
+	// inizio della classe Nota per creare istanze note	
 	class Nota {
 		constructor(content, position, size, fontsize, id ) {
 			this.id = id || 'note-'+ new Date().getTime(); 
@@ -235,12 +245,24 @@ document.addEventListener("DOMContentLoaded", ()=> {
 					this.note.selectionStart = 
 						this.note.selectionEnd = 
 							start + 1 + leadingTabs.length;
-				//	setTimeout(()=>{
-				//		this.note.scrollTop = this.note.scrollHeight;
-				//	}, 0 );
-					//	dava il problema in quanto se premevo enter 
-					//	al centro della nota lunga mi portava alla fine 
-					//
+					
+					// controla se il cursore e alla fine della pagina per non farlo scomparire
+					const isAtBottom = this.note.scrollHeight - 
+							this.note.scrollTop === this.note.clientHeight;
+					setTimeout(() => {
+						if (isAtBottom) {
+							const lineHeight = parseInt(window.getComputedStyle(this.note).lineHeight, 10);
+							this.note.scrollTop += lineHeight * 5;
+						} else {
+							// Assicurati che il cursore sia visibile
+							const cursorPosition = this.note.selectionEnd;
+							const lineHeight = parseInt(window.getComputedStyle(this.note).lineHeight, 10);
+							const cursorY = Math.floor(cursorPosition / this.note.cols) * lineHeight;
+							if (cursorY > this.note.scrollTop + this.note.clientHeight - lineHeight) {
+								this.note.scrollTop = cursorY - this.note.clientHeight + lineHeight;
+							}
+						}
+					}, 0);
 				}
 			});	
 		
@@ -338,9 +360,6 @@ document.addEventListener("DOMContentLoaded", ()=> {
 
 
 	}
-	
-
-
 	// -----------end class---------------------------------------------
 
 
@@ -728,7 +747,6 @@ document.addEventListener("DOMContentLoaded", ()=> {
 				notes = [];
 				saveLinks();
 				saveNotes();
-
 			}
 		} else {
 
@@ -763,6 +781,86 @@ document.addEventListener("DOMContentLoaded", ()=> {
 			updateLines();
 		}
 	},{ passive : false });
+
+
+// -- --- --- -- -- -code for title create
+	let toggleArtTitleContainer = true;
+
+	const funcToggleArtTitleContainer = ()=>{
+		if (toggleArtTitleContainer) {
+			toggleArtTitleContainer = false;
+			artTitleContainer.style.display = "flex";
+			artTitleContainer.style.top = 30+event.clientY+'px';
+			artTitleContainer.style.left = event.clientX+'px';
+			artTitleContainer.style.zIndex = '9999';
+		} else {
+			toggleArtTitleContainer = true;
+			artTitleContainer.style.display = 'none';
+		}
+	}
+
+	btnArtTitle.addEventListener("click", (event)=>{
+		funcToggleArtTitleContainer()
+	});
+
+// listener
+	btnDrawTitle.addEventListener("click", ()=>{
+		// click sul pulsante della Draw
+		drawParola(inputParola)
+	});
+
+	btnCopyClipboard.addEventListener("click", ()=>{
+		copyClipboard();
+	})
+	
+	// funzione che disegna il titolo 
+	const drawParola = (inputparola)=> {
+		const text = inputparola.value.toUpperCase();
+		console.log(text);
+		const block = '█';
+		const empty = " ";
+
+		let numRows = 5;
+		let numCols = 5;
+
+		// crea matrix bidimensional 
+		const liness = Array(numRows).fill("").map(
+			()=> Array(text.length * (numCols + 1)).fill(empty)
+		);
+
+		console.log(liness);
+		console.log(letters);
+
+	text.split('').forEach((char, charIndex) => {
+		const matrix = letters[char] || ["00000", "00000", "00000", "00000", "00000"];
+		for (let i = 0; i < numRows; i++) {
+			for (let j = 0; j < numCols; j++) {
+				if (matrix[i][j] === '1') {
+					liness[i][charIndex * (numCols + 1) + j] = block;
+				}
+			}
+		}
+	});
+		areaTitle.value = liness.map(line => line.join('')).join('\n');
+	}
+
+	// funzione che seleziona il titolo e lo inserisce 
+	// nella clipboard
+	const copyClipboard = ()=>{
+		toggleArtTitleContainer = false;
+		areaTitle.select();
+		areaTitle.setSelectionRange(0, 9999);// for mobile
+		try {
+			document.execCommand("copy")
+			alert("Testo copiato negli appunti");
+		} catch(err) {
+			alert ("Errore nella copia : ", err);
+		}
+		inputParola.value = '';
+		funcToggleArtTitleContainer(); // chiude la window
+	}
+	
+
 
 	loadNotes();
 
