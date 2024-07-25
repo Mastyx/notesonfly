@@ -213,12 +213,18 @@ document.addEventListener("DOMContentLoaded", ()=> {
 			});
 			// disable drag quando tocco la textarea (note)
 			this.note.addEventListener("touchstart", (event)=>{
+				event.stopPropagation();
 				this.inputBox.draggable("disable");
 			});
 
 			// riabilito il drag 
 			this.note.addEventListener("touchend", (event)=>{
+				event.stopPropagation();
 				this.inputBox.draggable("enable");
+			});
+
+			this.note.addEventListener("touchmove", (event)=>{
+				event.stopPropagation();
 			});
 
 			// gestione del Tab e identazione
