@@ -1,9 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Kode+Mono:wght@400..700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
 :root {
-	--background : #555;
-	--background-textarea : #444;
-	--background-inputbox : #444;
+	--background : #111;
+	--background-textarea : #DDD;
+	--background-inputbox : #DDD;
+	--text-color : #222;
 }
 
 * {
@@ -238,12 +239,11 @@ input[type="file"]::file-selector-button {
 	left : 100px;
 	max-width : 1000px;
 	min-width : 420px;
-	border : 1px solid var(--background-inputbox);
-	border-radius : 5px;
-	padding : 10px;
+	border-radius : 10px;
+	padding : 20px;
 	outline : none;
 	overflow: hidden;
-	box-shadow : 0 0 10px #000;
+	box-shadow : 0 0 10px #000 inset;
 	background : var(--background-inputbox);
 	display : flex;
 	flex-direction : column;
@@ -258,12 +258,11 @@ input[type="file"]::file-selector-button {
 	border : none;
 	outline : none;
 	background : var(--background-textarea);
-	border-top : 1px solid #444;
-	border-bottom : 1px solid #444;
-	border-radius : 5px;
+	border-radius : 10px;
 	padding : 5px;
 	resize : none;
 	line-height: 1.2;
+	color :var(--text-color);
 }
 
 /* Minimizzare la barra di scorrimento */
@@ -272,25 +271,29 @@ input[type="file"]::file-selector-button {
 }
 
 .input-box > textarea::-webkit-scrollbar-thumb {
-	background-color: #555; /* Colore della parte mobile della barra */
+	background-color: #EEE; /* Colore della parte mobile della barra */
 	border-radius: 10px; /* Arrotondare gli angoli */
 }
 
 .input-box > textarea::-webkit-scrollbar-thumb:hover {
-	background-color: #777; /* Colore quando si passa sopra con il mouse */
+	background-color: #EEE; /* Colore quando si passa sopra con il mouse */
 }
 
 .input-box > textarea::-webkit-scrollbar-track {
-	background-color: #444; /* Colore del track */
+	background-color: #CCC; /* Colore del track */
 	border-radius: 10px; /* Arrotondare gli angoli */
 }
 
 #cancella {
+	display : flex;
+	justify-content : center;
+	align-items : center;
 	border-radius : 5px;
 	margin-left : 10px;
 	color : #333;
 	background : #00fafa;
 	width : 40px;
+	box-shadow : 0 0 5px #000 inset;
 
 }
 #containerBtn {
@@ -300,7 +303,7 @@ input[type="file"]::file-selector-button {
 
 
 #btnIncreaseFont, #btnDecreaseFont {
-	border-radius : 5px;
+	border-radius : 10px;
 	display : flex;
 	justify-content : center;
 	align-items : center;
@@ -308,25 +311,35 @@ input[type="file"]::file-selector-button {
 	width : 100px;
 	height : 30px;
 	background : #555;
+	box-shadow : 0 0 10px #000 inset;
 }
 
 #btnLink {
+	display : flex;
+	align-items : center;
+	justify-content : center;
 	border-radius : 5px;
 	margin-left : 10px;
 	color : #333;
 	background : #00fafa;
 	width : 40px;
+	box-shadow : 0 0 5px #000 inset;
 }
 #btnLink>i {
 	color : #333;
 }
 
 #btnUnlink {
+	display : flex;
+	align-items : center;
+	justify-content : center;
 	border-radius : 5px;
 	margin-left : 10px;
 	color : #333;
 	background : #00fafa;
 	width : 40px;
+	box-shadow : 0 0 5px #000 inset;
+
 }
 #btnUnlink>i {
 	color : #333;
@@ -335,13 +348,15 @@ input[type="file"]::file-selector-button {
 #moveNote {
 	position : absolute;
 	right : 15px;
-	bottom : 10px;
-	display : flex;
+	bottom : 15px;
 	align-items : center;
 }
+
 #moveNote>i {
 	font-size : 30px;
+	color : #333;
 }
+
 
 .footer {
 	position : fixed;

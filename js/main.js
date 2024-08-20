@@ -163,7 +163,7 @@ document.addEventListener("DOMContentLoaded", ()=> {
 			this.note.addEventListener('click', ()=>{
 				// aggiungo il focus sulla nota(textarea) 
 				// altrimenti su dis mobile non fa scrivere 
-				notes.forEach(note => note.inputBox.style.boxShadow = "0 0 10px #000")
+				notes.forEach(note => note.inputBox.style.boxShadow = "0 0 10px #000 inset")
 				this.note.focus();
 				this.inputBox.style.boxShadow = "0 0 10px #00fafa"
 			});
@@ -213,12 +213,18 @@ document.addEventListener("DOMContentLoaded", ()=> {
 			});
 			// disable drag quando tocco la textarea (note)
 			this.note.addEventListener("touchstart", (event)=>{
+				event.stopPropagation();
 				this.inputBox.draggable("disable");
 			});
 
 			// riabilito il drag 
 			this.note.addEventListener("touchend", (event)=>{
+				event.stopPropagation();
 				this.inputBox.draggable("enable");
+			});
+
+			this.note.addEventListener("touchmove", (event)=>{
+				event.stopPropagation();
 			});
 
 			// gestione del Tab e identazione
@@ -347,7 +353,7 @@ document.addEventListener("DOMContentLoaded", ()=> {
 
 		bringToFront() {
 			// ripristina lo sfondo delle altre note
-			notes.forEach(note => note.inputBox.style.boxShadow ="0 0 10px #000")	
+			notes.forEach(note => note.inputBox.style.boxShadow ="0 0 10px #000 inset")	
 			this.inputBox.style.boxShadow = "0 0 10px #00fafa";
 			this.inputBox.style.zIndex = ++zIndexCount;
 
@@ -852,9 +858,9 @@ document.addEventListener("DOMContentLoaded", ()=> {
 		areaTitle.setSelectionRange(0, 9999);// for mobile
 		try {
 			document.execCommand("copy")
-			alert("Testo copiato negli appunti");
+			alert("The title has been copied to the clipboard");
 		} catch(err) {
-			alert ("Errore nella copia : ", err);
+			alert ("Copy Error : ", err);
 		}
 		inputParola.value = '';
 		funcToggleArtTitleContainer(); // chiude la window
