@@ -379,40 +379,6 @@ document.addEventListener("DOMContentLoaded", ()=> {
 			btnSave.style.background = '#333'
 		}
 	}
-	// create new note
-	newNoteButton.addEventListener("click", (event)=> {
-		// recupera la posizione dell'ultima nota e aggiunge 10
-		let nota;
-		if (notes.length > 0) {
-			const position = {
-				top : notes[notes.length-1].position.top + 10,
-				left : notes[notes.length-1].position.left + 10
-			};
-					// crea la nuova nota passando la position
-			nota = new Nota("", position, 
-				{	
-					width : 400, 
-					height : 300 
-				});
-
-		} else {
-			// nel caso di prima nota viene 
-			nota = new Nota("", {
-				top : 100 + notes.length*5,
-				left : 10 + notes.length*5
-			}, 
-			{
-				width : 400,
-				height : 300
-			},
-
-			);
-
-		}
-		notes.push(nota);
-		saveNotes();
-	});
-
 	const saveNotes = ()=> {
 		const noteData = notes.map(nota => ({
 			id : nota.id, 
@@ -536,26 +502,17 @@ document.addEventListener("DOMContentLoaded", ()=> {
 
 	function updateLines() {
 		lines.forEach(lineObj => {
-            const startEl = document.getElementById(lineObj.start).parentElement;
-            const endEl = document.getElementById(lineObj.end).parentElement;
-            if (startEl && endEl) {
-                lineObj.line.position();
-            }
-        });
+					const startEl = document.getElementById(lineObj.start).parentElement;
+					const endEl = document.getElementById(lineObj.end).parentElement;
+					if (startEl && endEl) {
+							lineObj.line.position();
+					}
+			});
     }
 	
 
-	document.addEventListener("keydown", (event)=>{
-		// listener for ctrl  + left arrow or right arrow
-		if (event.ctrlKey && 
-				(event.key === "ArrowLeft" || 
-				event.key === "ArrowRight")) 
-		{
-			event.preventDefault();
-			navigateNotes(event.key);
-		}
-	});
-
+	
+	// gestisce la navigazione tramite arrowLeft e ArrowRight
 	const navigateNotes = (direction)=>{
 		if (notes.lenght === 0) return;
 		const focusNotes = document.activeElement;
@@ -865,9 +822,65 @@ document.addEventListener("DOMContentLoaded", ()=> {
 		inputParola.value = '';
 		funcToggleArtTitleContainer(); // chiude la window
 	}
+
+		// richiama la funzione per creare una nuova nota 
+	newNoteButton.addEventListener("click", (event)=> {
+			creazioneNuovaNota();
+	});
+
+	const creazioneNuovaNota = ()=> {
+		// creazione nuova nota
+		let nota;
+		if (notes.length > 0) {
+			const position = {
+				top : notes[notes.length-1].position.top + 10,
+				left : notes[notes.length-1].position.left + 10
+			};
+					// crea la nuova nota passando la position
+			nota = new Nota("", position, 
+				{	
+					width : 400, 
+					height : 300 
+				});
+
+		} else {
+			// nel caso di prima nota viene 
+			nota = new Nota("", {
+				top : 100 + notes.length*5,
+				left : 10 + notes.length*5
+			}, 
+			{
+				width : 400,
+				height : 300
+			},
+
+			);
+
+		}
+		notes.push(nota);
+		saveNotes();
+	}
+
+	document.addEventListener("keydown", (event)=>{
+
+		// listener for ctrl  + left arrow or right arrow
+		if (event.ctrlKey && 
+				(event.key === "ArrowLeft" || 
+				event.key === "ArrowRight")) 
+		{
+			event.preventDefault();
+			navigateNotes(event.key);
+		}
+
+		// ascolta lo shortcut crtl + '+'
+		// per creare una nuova nota 
+		if (event.ctrlKey && event.key === '+') {
+			event.preventDefault();
+			creazioneNuovaNota();
+		}
+	});
+
 	
-
-
 	loadNotes();
 
 });
