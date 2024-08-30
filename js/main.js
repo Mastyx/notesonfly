@@ -710,6 +710,7 @@ document.addEventListener("DOMContentLoaded", ()=> {
 				notes = [];
 				saveLinks();
 				saveNotes();
+				location.reload();
 			}
 		} else {
 
@@ -877,6 +878,13 @@ document.addEventListener("DOMContentLoaded", ()=> {
 		if (event.ctrlKey && event.key === '+') {
 			event.preventDefault();
 			creazioneNuovaNota();
+		}
+
+		// ascolto della shortcut ctrl + S 
+		// per il salvataggio 
+		if (event.ctrlKey && event.key === 's') {
+			event.preventDefault();
+			downloadNotes();
 		}
 	});
 
