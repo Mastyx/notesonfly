@@ -161,9 +161,7 @@ input[type="file"]::file-selector-button {
 	padding : 5px;
 } 
 .art-titleContainer {
-	position : absolute;
 	background : #555;
-	display : flex;
 	flex-direction : column;
 	align-items : center;
 	border : 1px solid #000;

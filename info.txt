@@ -4,10 +4,11 @@ Questa app è una gestione di note interattiva che consente agli utenti di crear
 
 OTTIMIZZAZIONE DELLE RISORSE 
 
-- niente immagini o altri elementi che portrebbero aumentare in maniera significativa l'utilizzo della memeria. Questo permette la conservazione degli appunti direttamente nella memoria locale del nostro Browser Web.
+- Niente immagini o altri elementi che portrebbero aumentare in maniera significativa l'utilizzo della memeria. Questo permette la conservazione degli appunti direttamente nella memoria locale del nostro Browser Web.
 
 - Gestione Efficiente delle note
 Le note sono trattate come dei semplici elementi di testo, rendendo cosi possibile un ulteriore riduzione di memoria.
+
 
 Il suo utilizzo prevede l'uso di schermi ampi è quindi consigliato l'utilizzo su pc.
 
@@ -17,24 +18,28 @@ Ecco le principali funzionalità fornite dall'app:
 Funzionalità principali:
 	
 - Creazione e modifica delle note:
-
-CREAZIONE DI NUOVE NOTE: 
-Un pulsante in basso a destra consente di creare nuove note che appaiono in un'area definita.
+		CREAZIONE DI NUOVE NOTE: 
+			Un pulsante in basso a destra consente di creare 
+			nuove note che appaiono in un'area definita.
 		
 - MODIFICA DEL CONTENUTO: 
-Ogni nota ha una area dove gli utenti possono inserire e modificare il testo.
+		Ogni nota ha una area dove gli utenti possono 
+		inserire e modificare il testo.
 	
 	
 - GESTIONE DELLA FORMATTAZIONE DEL TESTO:
-Dimensione del testo: 
-Pulsanti '+' e '-' presenti in basso alla nota servono, per aumentare e diminuire la dimensione del testo nelle note.
+		Dimensione del testo: 
+			Pulsanti '+' e '-' presenti in basso alla nota servono, 
+			per aumentare e diminuire la dimensione del testo nelle note.
 		
 - Gestione della tabulazione: 
-Supporto per l'inserimento di tabulazioni (spazi) quando si preme il tasto 'Tab', e per la gestione delle rientranze quando si preme il tasto Enter.
+		Supporto per l'inserimento di tabulazioni (spazi) 
+		quando si preme il tasto 'Tab', 
+		e per la gestione delle rientranze quando si preme il tasto Enter.
 	
 - Posizionamento e dimensionamento:
-Trascinamento: 
-Le note possono essere spostate in diverse posizioni trascinandole.
+		Trascinamento: 
+			Le note possono essere spostate in diverse posizioni trascinandole.
 
 Ridimensionamento: 
 Le note possono essere ridimensionate trascinando gli angoli.
@@ -51,14 +56,33 @@ Come COLLEGARE le note :
 	4) per CANCELLARE una linea di collegamento effettuare lo stesso procedimento ma tramite il tasto "unlink" (scollegamento)
 
 	
--Navigazione tra le note:
+
+
 
 Shortcut da tastiera: 
+
+CTRL + '+' 
+	crea una nuova nota 
+
+CTRL + s 
+	Salva le note con la loro posizione e i collegamenti all'interno di un file 'notes.json'
+	Il file viene scaricato per impostazione predefinita del browser nella cartella 'download'
+	Se si vuole che venga scaricato in posizioni differenti bisogna cambiare le impostazioni del browser.
+	In questo modo verra aperta una finestra di dialogo dove specificare il nome e la posizione.
+
 
 CTRL + FRECCIA SINISTRA  e CTRL + FRECCIA DESTRA, 
  gli utenti possono navigare tra le note, 
  SEGUENDO L'ORDINE DI CREAZIONE DELLE NOTE. 
  La nota selezionata viene portata in primo piano e messa a fuoco.
+
+CTRL + d 
+	Disegna un titolo 
+	Apre un finestra di dialogo dove è possibile scrivere parole o titoli 
+	Cliccando il pulsante DRAW disegna il titolo 
+	In seguito col tasto COPY copiamo la scritta negli appunti 
+	basterà incollare la scritta nella nota. 
+	
 
 SALVATAGGIO E CARICAMENTO:
 
@@ -66,11 +90,9 @@ SALVATAGGIO E CARICAMENTO:
   Le note, le loro posizioni, dimensioni, contenuti e collegamenti 
   sono salvati nel localStorage del browser, permettendo di mantenere lo stato 
   anche dopo un refresh della pagina.
+	Tranne nel caso in cui decidiamo di cancellare la cronologia.
+	In tal caso salvare il file tramite Salva ( ctrl + s )
 
-RESET DELLE NOTE
-
- Reset delle dimensioni e posizioni: 
-  Un pulsante consente di ripristinare le note alle loro dimensioni e posizioni originali.
 
 
 
@@ -78,11 +100,11 @@ Come funziona l'app:
 
 	Inizializzazione: Quando il DOM è pronto, l'app carica le note e i collegamenti salvati dal localStorage.
 	
-	Creazione di nuove note: Quando viene cliccato il pulsante "add-note", 
+	Creazione di nuove note: Quando viene cliccato il pulsante "add-note" oppure ctrl + '+' 
 		viene creata una nuova nota con posizione e dimensioni predefinite.
 	
 	Modifica e aggiornamento: Ogni volta che viene modificato il contenuto di una nota 
-		o cambiata la sua posizione/dimensione, l'app salva lo stato corrente nel localStorage.
+		o cambiata la sua posizione/dimensione, l'app salva automaticamente lo stato corrente nel localStorage.
 	
 	Gestione dei collegamenti: Quando viene cliccato il pulsante di collegamento su una nota, 
 		l'app entra in modalità "linking" e collega due note selezionate in sequenza.
@@ -90,8 +112,8 @@ Come funziona l'app:
 	Navigazione e focus: Gli utenti possono navigare tra le note utilizzando le shortcut da tastiera, 
 		portando in primo piano la nota selezionata.
 	
-	Reset: Cliccando il pulsante di reset, tutte le note vengono riportate alle loro dimensioni e posizioni 
-		iniziali.
+	Reset: Cliccando il pulsante di Cancella Tutto , le note e i loro collegamenti vengono cancellati
+					Si consiglia prima di scaricare o salvare il tutto in un file.
 
 	Limitazioni:
 
