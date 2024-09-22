@@ -78,3 +78,19 @@ Come funziona l'app:
 			perdendo così tutte le note e collegamenti salvati.
 
 Questa applicazione è utile per prendere appunti, organizzare idee e mantenere traccia delle relazioni tra diverse note, tutto direttamente nel browser.
+
+
+Shortcut :
+
+    Ctrl + s : scarica tutto lo schema delle note salvandolo in un file 'notes.json' all'
+                interno della cartella download del browser.
+                
+                Se vogliamo salvare in una cartella differente dobbiamo cambiare le impostazioni del browser 
+                in modo che apra una finestra di dialogo dove spacificare la cartella per il salvataggio.
+
+                    Di solito nelle impostazioni del browser, sezione DOWNLOAD, 
+                        spuntare "Chiedi dove salvare il file.."
+
+    Ctrl + '+' : crea una nuova nota senza la pressione del pulsante in basso a destra.
+
+
