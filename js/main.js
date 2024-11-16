@@ -760,10 +760,12 @@ document.addEventListener("DOMContentLoaded", ()=> {
 			const rect = artTitleContainer.getBoundingClientRect();
 			const containerWidth = rect.width;
 			const containerHeight = rect.height;
+			// calcoliamo le dimenasioni dello schermo 
 			const windowWidth = window.innerWidth;
 			const windowHeight = window.innerHeight;
-			artTitleContainer.style.top = (windowHeight / 2 - containerHeight/ 2 + 'px');
-			artTitleContainer.style.left = (windowWidth / 2 - containerWidth / 2 + 'px');
+
+			artTitleContainer.style.top = ((windowHeight)/ 2 + 'px');
+			artTitleContainer.style.left = ((windowWidth) / 2 + 'px');
 			artTitleContainer.style.zIndex = '9999';
 		} else {
 			console.log("chiusura title");
