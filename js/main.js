@@ -52,7 +52,8 @@ document.addEventListener("DOMContentLoaded", ()=> {
 			this.cancella.id = "cancella";
 			this.cancella.innerHTML = "X";
 			this.cancella.title = "remove this note"
-
+		
+			//crea l'elemento inputBox
 			this.inputBox = document.createElement("div");
 			this.inputBox.className = "input-box";
 			this.inputBox.style.top = this.position.top + "px";
