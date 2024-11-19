@@ -2,8 +2,8 @@
 
 :root {
 	--background : #111;
-	--background-textarea : #DDD;
-	--background-inputbox : #DDD;
+	--background-textarea : #ebd59d;
+	--background-inputbox : #ebd59d;
 	--text-color : #222;
 }
 
@@ -32,6 +32,7 @@ body {
 .titolo {
 	display : flex;
 	align-items: center;
+	width : 100%;
 	gap : 10px;
 	padding : 10px;
 }
