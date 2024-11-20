@@ -263,6 +263,7 @@ input[type="file"]::file-selector-button {
 	resize : none;
 	line-height: 1.2;
 	color :var(--text-color);
+	font-weight : 800;
 }
 
 /* Minimizzare la barra di scorrimento */

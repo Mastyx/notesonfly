@@ -166,7 +166,7 @@ document.addEventListener("DOMContentLoaded", ()=> {
 				// altrimenti su dis mobile non fa scrivere 
 				notes.forEach(note => note.inputBox.style.boxShadow = "0 0 10px #000 inset")
 				this.note.focus();
-				this.inputBox.style.boxShadow = "0 0 10px #00fafa"
+				this.inputBox.style.boxShadow = "0 0 10px #000 inset"
 			});
 			
 
@@ -355,7 +355,7 @@ document.addEventListener("DOMContentLoaded", ()=> {
 		bringToFront() {
 			// ripristina lo sfondo delle altre note
 			notes.forEach(note => note.inputBox.style.boxShadow ="0 0 10px #000 inset")	
-			this.inputBox.style.boxShadow = "0 0 10px #00fafa";
+			this.inputBox.style.boxShadow = "0 0 10px #000 inset";                            // senza inset e 00fafa
 			this.inputBox.style.zIndex = ++zIndexCount;
 
 		}
@@ -682,10 +682,10 @@ document.addEventListener("DOMContentLoaded", ()=> {
 					data = '';
 				} catch (error) {
 					console.error("Error parsing JSON file: ", error);
-                }
-            };
-            reader.readAsText(file);
-        }
+				}
+			};
+			reader.readAsText(file);
+		}
 		toggleFileLoadContainer = true;
 		showFileLoadContainer();
 	}
@@ -885,10 +885,10 @@ document.addEventListener("DOMContentLoaded", ()=> {
 			navigateNotes(event.key);
 		}
 
-		//ascolta ctrl + t per creare un titolo 
+		//ascolta ctrl + d per creare un titolo 
 		if(event.ctrlKey && event.key === "d") {
 			event.preventDefault();
-			console.log("ctrl t");
+			console.log("ctrl d");
 			funcToggleArtTitleContainer();
 
 		}
