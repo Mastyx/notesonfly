@@ -178,6 +178,16 @@ input[type="file"]::file-selector-button {
 	z-index : 9999;
 }
 
+.art-titleContainer>textarea {
+	color : #00fafa;
+	background : #444;
+	overflow-x : auto;
+	white-space: nowrap;
+	resize : none;
+	padding : 5px;
+}
+
+
 .art-titleContainer>.button-div{
 	display: flex;
 	justify-content : center;
@@ -195,14 +205,6 @@ input[type="file"]::file-selector-button {
 	border-radius : 5px;
 	width : 100%;
 
-}
-.art-titleContainer>textarea {
-	color : #00fafa;
-	background : #444;
-	overflow-x : auto;
-	white-space: nowrap;
-	resize : none;
-	padding : 5px;
 }
 
 #art-titleArea::-webkit-scrollbar {
