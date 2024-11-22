@@ -757,17 +757,13 @@ document.addEventListener("DOMContentLoaded", ()=> {
 			toggleArtTitleContainer = false;
 			artTitleContainer.style.position = "fixed";
 			artTitleContainer.style.display = "flex";
-			// Forza il browser a calcolare le dimensioni del contenitore
-			//const rect = artTitleContainer.getBoundingClientRect();
-			//const containerWidth = rect.width;
-			//const containerHeight = rect.height;
+			artTitleContainer.style.zIndex = 10000;
 			// calcoliamo le dimenasioni dello schermo 
 			const windowWidth = window.innerWidth;
 			const windowHeight = window.innerHeight;
 
 			artTitleContainer.style.top = ((windowHeight-artTitleContainer.offsetHeight)/ 2 + 'px');
 			artTitleContainer.style.left = ((windowWidth-artTitleContainer.offsetWidth) / 2 + 'px');
-			artTitleContainer.style.zIndex = '9999';
 		} else {
 			console.log("chiusura title");
 			toggleArtTitleContainer = true;
