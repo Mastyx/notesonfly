@@ -769,10 +769,6 @@ document.addEventListener("DOMContentLoaded", ()=> {
 			toggleArtTitleContainer = true;
 			artTitleContainer.style.display = 'none';
 		}
-		console.log('Z-index delle note:', document.querySelector('.input-box').style.zIndex);
-		console.log('Z-index artTitleContainer:', artTitleContainer.style.zIndex);
-		console.log("numero delle note : ", notes.lenght); 
-
 	}
 
 	btnArtTitle.addEventListener("click", (event)=>{
