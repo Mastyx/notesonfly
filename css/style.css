@@ -1,10 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Kode+Mono:wght@400..700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
 :root {
-	--background : #111;
-	--background-textarea : #ebd59d;
-	--background-inputbox : #ebd59d;
-	--text-color : #222;
+	--background : #2e3235;
+	--background-textarea : #4f6076;
+	--background-inputbox : #4f6078;
+	--text-color : #CCC;
 }
 
 * {
@@ -251,7 +251,7 @@ input[type="file"]::file-selector-button {
 	padding : 20px;
 	outline : none;
 	overflow: hidden;
-	box-shadow : 0 0 10px #000 inset;
+	box-shadow : 0 0 10px #000;
 	background : var(--background-inputbox);
 	display : flex;
 	flex-direction : column;

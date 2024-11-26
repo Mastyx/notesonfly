@@ -164,9 +164,9 @@ document.addEventListener("DOMContentLoaded", ()=> {
 			this.note.addEventListener('click', ()=>{
 				// aggiungo il focus sulla nota(textarea) 
 				// altrimenti su dis mobile non fa scrivere 
-				notes.forEach(note => note.inputBox.style.boxShadow = "0 0 10px #000 inset")
+				notes.forEach(note => note.inputBox.style.boxShadow = "0 0 10px #000")
 				this.note.focus();
-				this.inputBox.style.boxShadow = "0 0 10px #000 inset"
+				this.inputBox.style.boxShadow = "0 0 10px #000"
 			});
 			
 
@@ -354,8 +354,8 @@ document.addEventListener("DOMContentLoaded", ()=> {
 
 		bringToFront() {
 			// ripristina lo sfondo delle altre note
-			notes.forEach(note => note.inputBox.style.boxShadow ="0 0 10px #000 inset")	
-			this.inputBox.style.boxShadow = "0 0 10px #000 inset";                            // senza inset e 00fafa
+			notes.forEach(note => note.inputBox.style.boxShadow ="0 0 10px #000")	
+			this.inputBox.style.boxShadow = "0 0 10px #000";  // senza inset e 00fafa
 			this.inputBox.style.zIndex = ++zIndexCount;
 
 		}
